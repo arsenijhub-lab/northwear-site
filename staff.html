@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f5f4f0">
+  <title>Кабінет команди — NORTH WEAR</title>
+  <link rel="stylesheet" href="staff.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">NW</span>
+      <span>NORTH<span class="brand-accent">WEAR</span></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="topbar-link" href="index.html">Відкрити магазин ↗</a>
+      <button class="button button-quiet is-hidden" id="sign-out" type="button">Вийти</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="auth-panel" id="auth-panel" aria-labelledby="auth-title">
+      <p class="eyebrow">NORTH WEAR / команда</p>
+      <h1 id="auth-title">Кабінет магазину</h1>
+      <p class="intro">Увійди, щоб керувати товарами та замовленнями. Доступ мають лише запрошені працівники.</p>
+      <form class="stack-form" id="auth-form">
+        <label>
+          Робоча пошта
+          <input id="auth-email" type="email" autocomplete="email" required maxlength="254">
+        </label>
+        <label>
+          Пароль
+          <input id="auth-password" type="password" autocomplete="current-password" required minlength="8" maxlength="128">
+        </label>
+        <button class="button button-primary" id="auth-submit" type="submit">Увійти</button>
+      </form>
+      <p class="auth-hint" id="auth-hint">Новий працівник? Попроси адміністратора спочатку запросити твою робочу пошту.</p>
+      <button class="text-button" id="auth-mode-toggle" type="button">Створити обліковий запис за запрошенням</button>
+      <p class="form-message" id="auth-message" role="status" aria-live="polite"></p>
+      <p class="setup-note is-hidden" id="setup-note"></p>
+    </section>
+
+    <section class="dashboard is-hidden" id="dashboard" aria-labelledby="dashboard-title">
+      <div class="dashboard-heading">
+        <div>
+          <p class="eyebrow">NORTH WEAR / керування</p>
+          <h1 id="dashboard-title">Кабінет команди</h1>
+          <p class="intro" id="signed-in-as"></p>
+        </div>
+        <span class="role-badge" id="role-badge"></span>
+      </div>
+
+      <nav class="tabs" aria-label="Розділи кабінету" role="tablist">
+        <button class="tab is-active" type="button" role="tab" aria-selected="true" data-tab="products">Товари</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-tab="orders">Замовлення</button>
+        <button class="tab is-hidden" id="invites-tab" type="button" role="tab" aria-selected="false" data-tab="invites">Працівники</button>
+      </nav>
+
+      <section class="workspace" id="products-panel" role="tabpanel">
+        <div class="section-heading">
+          <div>
+            <h2>Каталог</h2>
+            <p class="section-note">Зміни зберігаються онлайн і стають видимими в магазині.</p>
+          </div>
+          <div class="toolbar">
+            <button class="button button-secondary" id="import-products" type="button">Імпортувати каталог</button>
+            <input id="import-file" class="is-hidden" type="file" accept=".json,application/json">
+            <button class="button button-primary" id="add-product" type="button">+ Додати товар</button>
+          </div>
+        </div>
+        <p class="form-message" id="import-message" role="status" aria-live="polite"></p>
+        <div class="list-tools">
+          <label class="search-label">
+            <span class="visually-hidden">Пошук товарів</span>
+            <input id="product-search" type="search" placeholder="Пошук за назвою...">
+          </label>
+          <label class="filter-label">Показати
+            <select id="product-visibility">
+              <option value="active">Активні</option>
+              <option value="all">Усі, включно з архівом</option>
+            </select>
+          </label>
+          <span class="list-count" id="product-count" role="status"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Товар</th><th>Категорія</th><th>Ціна</th><th>Залишок</th><th>Статус</th><th><span class="visually-hidden">Дії</span></th></tr>
+            </thead>
+            <tbody id="product-rows"></tbody>
+          </table>
+        </div>
+        <p class="empty-state is-hidden" id="products-empty">Товарів не знайдено.</p>
+      </section>
+
+      <section class="workspace is-hidden" id="orders-panel" role="tabpanel">
+        <div class="section-heading">
+          <div>
+            <h2>Замовлення</h2>
+            <p class="section-note">Нові замовлення зберігаються тут, навіть якщо покупець закрив Telegram.</p>
+          </div>
+          <button class="button button-secondary" id="refresh-orders" type="button">Оновити</button>
+        </div>
+        <p class="form-message" id="orders-message" role="status" aria-live="polite"></p>
+        <div class="orders-list" id="orders-list"></div>
+        <p class="empty-state is-hidden" id="orders-empty">Замовлень поки немає.</p>
+      </section>
+
+      <section class="workspace is-hidden" id="invites-panel" role="tabpanel">
+        <div class="section-heading">
+          <div>
+            <h2>Доступ команди</h2>
+            <p class="section-note">Запроси робочу пошту. Працівник створить пароль у цьому кабінеті.</p>
+          </div>
+        </div>
+        <form class="invite-form" id="invite-form">
+          <label>Робоча пошта
+            <input id="invite-email" type="email" autocomplete="email" required maxlength="254" placeholder="name@example.com">
+          </label>
+          <button class="button button-primary" type="submit">Запросити працівника</button>
+        </form>
+        <p class="form-message" id="invites-message" role="status" aria-live="polite"></p>
+        <h3 class="subheading">Очікують реєстрації</h3>
+        <ul class="invites-list" id="invites-list"></ul>
+        <p class="empty-state is-hidden" id="invites-empty">Запрошень поки немає.</p>
+      </section>
+    </section>
+  </main>
+
+  <dialog class="product-dialog" id="product-dialog" aria-labelledby="product-dialog-title">
+    <form class="dialog-content" id="product-form">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">КАТАЛОГ NORTH WEAR</p>
+          <h2 id="product-dialog-title">Новий товар</h2>
+        </div>
+        <button class="icon-button" id="close-product-dialog" type="button" aria-label="Закрити">×</button>
+      </div>
+      <label>Назва товару
+        <input id="product-name" type="text" required maxlength="160" placeholder="Худі NORTH WEAR">
+      </label>
+      <div class="form-grid">
+        <label>Категорія
+          <select id="product-category" required>
+            <option value="hoodie">Худі</option>
+            <option value="tee">Футболки</option>
+            <option value="pants">Штани й шорти</option>
+            <option value="jacket">Куртки</option>
+            <option value="other">Інше</option>
+          </select>
+        </label>
+        <label>Ціна, грн
+          <input id="product-price" type="number" min="0" max="9999999" step="0.01" placeholder="Залиш порожнім, якщо уточнюється">
+        </label>
+      </div>
+      <label>Розмірна сітка <span class="label-note">(через кому)</span>
+        <input id="product-sizes" type="text" required maxlength="160" placeholder="XS, S, M, L, XL">
+      </label>
+      <div class="form-grid">
+        <label>Залишок
+          <input id="product-stock" type="number" min="0" max="999999" step="1" placeholder="Не обліковується">
+        </label>
+        <label>Позначка на фото
+          <input id="product-badge" type="text" maxlength="40" placeholder="Новинка">
+        </label>
+      </div>
+      <label>Підпис / фільтри <span class="label-note">(через кому)</span>
+        <input id="product-label" type="text" maxlength="160" placeholder="Худі, принт міста">
+      </label>
+      <label>Теги фільтра <span class="label-note">(наприклад: city)</span>
+        <input id="product-tags" type="text" maxlength="160" placeholder="city">
+      </label>
+      <label>Посилання на фото
+        <input id="product-image" type="url" inputmode="url" placeholder="https://...">
+      </label>
+      <label>Або завантаж фото (до 8 МБ)
+        <input id="product-image-file" type="file" accept="image/jpeg,image/png,image/webp">
+      </label>
+      <label>Посилання на пост у Telegram <span class="label-note">(необов'язково)</span>
+        <input id="product-source" type="url" inputmode="url" placeholder="https://t.me/...">
+      </label>
+      <p class="form-message" id="product-form-message" role="status" aria-live="polite"></p>
+      <div class="dialog-actions">
+        <button class="button button-secondary" id="cancel-product" type="button">Скасувати</button>
+        <button class="button button-primary" id="save-product" type="submit">Зберегти товар</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="supabase-config.js"></script>
+  <script src="northwear-backend.js"></script>
+  <script src="staff.js"></script>
+</body>
+</html>
