@@ -1413,7 +1413,7 @@
           </div>
         </div>
         <div class="hero-visual">
-          <img id="hero-image" src="homepage.png" data-product-category="hoodie" alt="NORTH WEAR" fetchpriority="high" onerror="if(!this.dataset.usedFallback){this.dataset.usedFallback='true';this.src='assets/look-street.jpg';}">
+          <img id="hero-image" src="assets/channel-1299-1.jpg" data-product-category="hoodie" alt="NORTH WEAR" fetchpriority="high" onerror="if(!this.dataset.usedFallback){this.dataset.usedFallback='true';this.src='homepage.png';}">
           <div class="hero-label">Твоє місто — твій принт</div>
         </div>
       </section>
@@ -1724,9 +1724,14 @@
     function getProductImage(product) {
       const img = product?.image;
       if (img && typeof img === "string") {
-        if (!img.includes("telesco.pe") && (img.startsWith("http://") || img.startsWith("https://") || img.startsWith("assets/"))) {
+        if (img.startsWith("assets/")) return escapeHtml(img);
+        if (!img.includes("telesco.pe") && (img.startsWith("http://") || img.startsWith("https://"))) {
           return escapeHtml(img);
         }
+      }
+      const arch = Array.isArray(window.northwearArchive) ? window.northwearArchive.find(p => p.id === product?.id) : null;
+      if (arch && arch.image && arch.image.startsWith("assets/")) {
+        return escapeHtml(arch.image);
       }
       return categoryPhotos[product?.category] || categoryPhotos.other;
     }
