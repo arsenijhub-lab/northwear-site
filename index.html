@@ -1413,7 +1413,7 @@
           </div>
         </div>
         <div class="hero-visual">
-          <img id="hero-image" data-product-category="hoodie" alt="" fetchpriority="high">
+          <img id="hero-image" src="homepage.png" data-product-category="hoodie" alt="NORTH WEAR" fetchpriority="high" onerror="if(!this.dataset.usedFallback){this.dataset.usedFallback='true';this.src='assets/look-street.jpg';}">
           <div class="hero-label">Твоє місто — твій принт</div>
         </div>
       </section>
@@ -1713,11 +1713,27 @@
         return "";
       }
     };
-    const heroProduct = products.find((product) => product.id === "channel-1299-1") || products.find((product) => product.category === "hoodie");
-    if (heroProduct) {
-      const heroImage = document.getElementById("hero-image");
-      heroImage.src = heroProduct.image;
-      heroImage.alt = heroProduct.alt || heroProduct.name;
+    const categoryPhotos = {
+      hoodie: "assets/look-street.jpg",
+      tee: "assets/tee-classic.jpg",
+      pants: "assets/jeans.jpg",
+      jacket: "assets/jacket.jpg",
+      other: "assets/look-minimal.jpg"
+    };
+
+    function getProductImage(product) {
+      const img = product?.image;
+      if (img && typeof img === "string") {
+        if (!img.includes("telesco.pe") && (img.startsWith("http://") || img.startsWith("https://") || img.startsWith("assets/"))) {
+          return escapeHtml(img);
+        }
+      }
+      return categoryPhotos[product?.category] || categoryPhotos.other;
+    }
+
+    const heroImage = document.getElementById("hero-image");
+    if (heroImage && !heroImage.getAttribute("src")) {
+      heroImage.src = "homepage.png";
     }
 
     const productImageFallbacks = {
@@ -1780,7 +1796,7 @@
         return `
         <article class="product-card" data-product-id="${escapeHtml(product.id)}">
           <div class="product-image" data-open-product="${escapeHtml(product.id)}" role="button" tabindex="0" aria-label="Детальніше про ${escapeHtml(product.name)}">
-            <img src="${safeHttpUrl(product.image)}" data-product-category="${escapeHtml(product.category)}" alt="${escapeHtml(product.alt)}" loading="lazy" referrerpolicy="no-referrer">
+            <img src="${getProductImage(product)}" data-product-category="${escapeHtml(product.category)}" alt="${escapeHtml(product.alt || product.name)}" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.usedFallback){this.dataset.usedFallback='true';this.src=productImageFallback(this.dataset.productCategory);}">
             ${soldCount ? `<span class="product-badge">Хіт продажів · ${soldCount} шт.</span>` : product.badge ? `<span class="product-badge">${escapeHtml(product.badge)}</span>` : ""}
             <button class="favorite-button" type="button" aria-label="${isFavorite ? "Видалити" : "Додати"} ${escapeHtml(product.name)} ${isFavorite ? "з" : "до"} обраного" aria-pressed="${isFavorite}">${isFavorite ? "♥" : "♡"}</button>
           </div>
@@ -1812,7 +1828,7 @@
       const product = products.find((entry) => entry.id === productId);
       if (!product) return;
 
-      document.getElementById("detail-image").src = safeHttpUrl(product.image);
+      document.getElementById("detail-image").src = getProductImage(product);
       document.getElementById("detail-image").dataset.productCategory = product.category;
       delete document.getElementById("detail-image").dataset.usedFallback;
       document.getElementById("detail-image").alt = product.alt || product.name;
@@ -1899,7 +1915,7 @@
           if (!product) return "";
           return `
             <article class="cart-line">
-              <img src="${safeHttpUrl(product.image)}" data-product-category="${escapeHtml(product.category)}" alt="">
+              <img src="${getProductImage(product)}" data-product-category="${escapeHtml(product.category)}" alt="" onerror="if(!this.dataset.usedFallback){this.dataset.usedFallback='true';this.src=productImageFallback(this.dataset.productCategory);}">
               <div>
                 <h3>${escapeHtml(product.name)}</h3>
                 <p>Розмір ${escapeHtml(item.size)}${item.color ? ` · ${escapeHtml(item.color)}` : ""} · ${formatPrice(product.price)}</p>

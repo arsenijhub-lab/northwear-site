@@ -20,6 +20,13 @@
     completed: "Завершене",
     cancelled: "Скасоване"
   };
+  const categoryThumbs = {
+    hoodie: 'assets/look-street.jpg',
+    tee: 'assets/tee-classic.jpg',
+    pants: 'assets/jeans.jpg',
+    jacket: 'assets/jacket.jpg',
+    other: 'assets/look-minimal.jpg'
+  };
   const garmentNames = {
     tee: "Футболка",
     hoodie: "Худі",
@@ -134,7 +141,7 @@
       <tr>
         <td>
           <div class="product-cell">
-            <img class="product-thumb" src="${escapeHtml(isHttpsUrl(product.image) ? product.image : "")}" alt="" loading="lazy">
+            <img class="product-thumb" src="${escapeHtml(isHttpsUrl(product.image) && !product.image.includes('telesco.pe') ? product.image : (categoryThumbs[product.category] || 'assets/look-minimal.jpg'))}" alt="" loading="lazy" onerror="this.src='favicon.svg'">
             <strong title="${escapeHtml(product.name)}">${escapeHtml(product.name)}</strong>
           </div>
         </td>

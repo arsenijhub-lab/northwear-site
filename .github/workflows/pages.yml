@@ -30,8 +30,9 @@ jobs:
       - name: Prepare site files
         run: |
           mkdir _site
-          cp index.html catalog.js northwear-backend.js supabase-config.js favicon.svg _site/
+          cp index.html catalog.js northwear-backend.js supabase-config.js favicon.svg homepage.png _site/
           cp staff.html staff.css staff.js catalog-seed.json _site/
+          cp -r assets _site/
           cp .nojekyll _site/
 
       - name: Upload Pages artifact

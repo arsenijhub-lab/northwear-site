@@ -1,16 +1,32 @@
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import socket
 import webbrowser
 
 
 SITE_DIRECTORY = Path(__file__).resolve().parent
-SITE_URL = "http://127.0.0.1:8000/"
+PORT = 8000
 handler = partial(SimpleHTTPRequestHandler, directory=str(SITE_DIRECTORY))
-server = ThreadingHTTPServer(("127.0.0.1", 8000), handler)
 
-print(f"NORTH WEAR is running at {SITE_URL}. Press Ctrl+C to stop.")
-webbrowser.open(SITE_URL)
+try:
+    server = ThreadingHTTPServer(("0.0.0.0", PORT), handler)
+except OSError:
+    server = ThreadingHTTPServer(("127.0.0.1", PORT), handler)
+
+hostname = socket.gethostname()
+try:
+    local_ip = socket.gethostbyname(hostname)
+except Exception:
+    local_ip = "127.0.0.1"
+
+print(f"NORTH WEAR is running:")
+print(f"  - On PC:    http://127.0.0.1:{PORT}/")
+if local_ip != "127.0.0.1":
+    print(f"  - On phone: http://{local_ip}:{PORT}/ (same Wi-Fi)")
+print("Press Ctrl+C to stop.")
+
+webbrowser.open(f"http://127.0.0.1:{PORT}/")
 
 try:
     server.serve_forever()
