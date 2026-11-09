@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#f5f4f0">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>Кабінет команди — NORTH WEAR</title>
   <link rel="stylesheet" href="staff.css">
 </head>
@@ -24,7 +25,7 @@
     <section class="auth-panel" id="auth-panel" aria-labelledby="auth-title">
       <p class="eyebrow">NORTH WEAR / команда</p>
       <h1 id="auth-title">Кабінет магазину</h1>
-      <p class="intro">Увійди, щоб керувати товарами та замовленнями. Доступ мають лише запрошені працівники.</p>
+      <p class="intro">Увійди, щоб керувати товарами та замовленнями. Після першого входу браузер запам’ятає пристрій, тож наступного разу пароль вводити не потрібно. Доступ мають лише запрошені працівники.</p>
       <form class="stack-form" id="auth-form">
         <label>
           Робоча пошта
@@ -55,6 +56,7 @@
       <nav class="tabs" aria-label="Розділи кабінету" role="tablist">
         <button class="tab is-active" type="button" role="tab" aria-selected="true" data-tab="products">Товари</button>
         <button class="tab" type="button" role="tab" aria-selected="false" data-tab="orders">Замовлення</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-tab="custom-requests">Індивідуальні заявки</button>
         <button class="tab is-hidden" id="invites-tab" type="button" role="tab" aria-selected="false" data-tab="invites">Працівники</button>
       </nav>
 
@@ -99,13 +101,26 @@
         <div class="section-heading">
           <div>
             <h2>Замовлення</h2>
-            <p class="section-note">Нові замовлення зберігаються тут, навіть якщо покупець закрив Telegram.</p>
+            <p class="section-note">Усі замовлення з магазину зберігаються тут.</p>
           </div>
           <button class="button button-secondary" id="refresh-orders" type="button">Оновити</button>
         </div>
         <p class="form-message" id="orders-message" role="status" aria-live="polite"></p>
         <div class="orders-list" id="orders-list"></div>
         <p class="empty-state is-hidden" id="orders-empty">Замовлень поки немає.</p>
+      </section>
+
+      <section class="workspace is-hidden" id="custom-requests-panel" role="tabpanel">
+        <div class="section-heading">
+          <div>
+            <h2>Індивідуальні принти</h2>
+            <p class="section-note">Заявки та зображення покупців доступні лише працівникам.</p>
+          </div>
+          <button class="button button-secondary" id="refresh-custom-requests" type="button">Оновити</button>
+        </div>
+        <p class="form-message" id="custom-requests-message" role="status" aria-live="polite"></p>
+        <div class="orders-list" id="custom-requests-list"></div>
+        <p class="empty-state is-hidden" id="custom-requests-empty">Індивідуальних заявок поки немає.</p>
       </section>
 
       <section class="workspace is-hidden" id="invites-panel" role="tabpanel">

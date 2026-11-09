@@ -20,6 +20,16 @@
     completed: "Завершене",
     cancelled: "Скасоване"
   };
+  const garmentNames = {
+    tee: "Футболка",
+    hoodie: "Худі",
+    sweatshirt: "Світшот"
+  };
+  const placementNames = {
+    a6: "На грудях (A6)",
+    front: "Спереду (A4)",
+    back: "На спині (A4)"
+  };
   const validCategories = new Set(Object.keys(categoryNames));
   const validOrderStatuses = new Set(Object.keys(orderStatusNames));
   let client;
@@ -147,7 +157,7 @@
     setMessage(message, "");
     const { data, error } = await client
       .from("orders")
-      .select("id,status,total_amount,created_at,order_items(product_name,size,quantity,unit_price)")
+      .select("id,status,total_amount,customer_name,customer_phone,delivery_city,delivery_address,created_at,order_items(product_name,size,color,quantity,unit_price)")
       .order("created_at", { ascending: false })
       .limit(200);
     if (error) throw error;
@@ -171,15 +181,67 @@
               ).join("")}
             </select>
           </div>
+          <p class="order-date">
+            Покупець: ${escapeHtml(order.customer_name || "—")} · ${escapeHtml(order.customer_phone || "—")}<br>
+            Доставка: ${escapeHtml(order.delivery_city || "—")}, ${escapeHtml(order.delivery_address || "—")}
+          </p>
           <ul class="order-items">
             ${items.map((item) => `
               <li>
-                <span>${escapeHtml(item.product_name)} · ${escapeHtml(item.size)} × ${escapeHtml(item.quantity)}</span>
+                <span>${escapeHtml(item.product_name)} · ${escapeHtml(item.size)}${item.color ? ` · ${escapeHtml(item.color)}` : ""} × ${escapeHtml(item.quantity)}</span>
                 <span>${formatPrice(item.unit_price * item.quantity)}</span>
               </li>
             `).join("")}
           </ul>
           <p class="order-total"><span>Разом</span><span>${formatPrice(order.total_amount)}</span></p>
+        </article>
+      `;
+    }).join("");
+  }
+
+  async function loadCustomRequests() {
+    const message = document.getElementById("custom-requests-message");
+    setMessage(message, "");
+    const { data, error } = await client
+      .from("custom_requests")
+      .select("id,status,customer_name,customer_phone,garment,garment_color,size,placement,print_text,quantity,image_path,created_at")
+      .order("created_at", { ascending: false })
+      .limit(200);
+    if (error) throw error;
+
+    const requests = await Promise.all((data || []).map(async (request) => {
+      if (!request.image_path) return { ...request, imageUrl: "" };
+      const { data: image, error: imageError } = await client.storage
+        .from("custom-designs")
+        .createSignedUrl(request.image_path, 3600);
+      if (imageError) throw imageError;
+      return { ...request, imageUrl: image.signedUrl };
+    }));
+
+    document.getElementById("custom-requests-empty").classList.toggle("is-hidden", requests.length > 0);
+    document.getElementById("custom-requests-list").innerHTML = requests.map((request) => {
+      const status = validOrderStatuses.has(request.status) ? request.status : "new";
+      return `
+        <article class="order-card">
+          <div class="order-heading">
+            <div>
+              <h3>Заявка #${escapeHtml(request.id.slice(0, 8).toUpperCase())}</h3>
+              <p class="order-date">${escapeHtml(formatDate(request.created_at))}</p>
+            </div>
+            <label class="visually-hidden" for="custom-request-status-${escapeHtml(request.id)}">Статус заявки</label>
+            <select class="order-status" id="custom-request-status-${escapeHtml(request.id)}" data-custom-request-id="${escapeHtml(request.id)}">
+              ${Object.entries(orderStatusNames).map(([value, name]) =>
+                `<option value="${value}"${value === status ? " selected" : ""}>${name}</option>`
+              ).join("")}
+            </select>
+          </div>
+          <p class="order-date">
+            Покупець: ${escapeHtml(request.customer_name)} · ${escapeHtml(request.customer_phone)}<br>
+            Виріб: ${escapeHtml(garmentNames[request.garment] || request.garment)} · ${escapeHtml(request.garment_color)} · ${escapeHtml(request.size)}<br>
+            Принт: ${escapeHtml(placementNames[request.placement] || request.placement)} · Кількість: ${escapeHtml(request.quantity)}
+            ${request.print_text ? `<br>Текст: ${escapeHtml(request.print_text)}` : ""}
+          </p>
+          ${request.imageUrl ? `<p><a class="custom-design-link" href="${escapeHtml(request.imageUrl)}" target="_blank" rel="noopener noreferrer">Переглянути ескіз ↗</a></p>` : ""}
         </article>
       `;
     }).join("");
@@ -207,9 +269,12 @@
     try {
       if (activeTab === "products") await loadProducts();
       if (activeTab === "orders") await loadOrders();
+      if (activeTab === "custom-requests") await loadCustomRequests();
       if (activeTab === "invites") await loadInvites();
     } catch (error) {
-      const target = activeTab === "orders" ? "orders-message" : activeTab === "invites" ? "invites-message" : "import-message";
+      const target = activeTab === "orders" ? "orders-message"
+        : activeTab === "custom-requests" ? "custom-requests-message"
+          : activeTab === "invites" ? "invites-message" : "import-message";
       setMessage(document.getElementById(target), `Не вдалося завантажити дані: ${error.message}`, "error");
     }
   }
@@ -440,6 +505,31 @@
     }
   }
 
+  async function changeCustomRequestStatus(select) {
+    const requestId = select.dataset.customRequestId;
+    const nextStatus = select.value;
+    if (!validOrderStatuses.has(nextStatus)) return;
+    select.disabled = true;
+    try {
+      const { error } = await client
+        .from("custom_requests")
+        .update({ status: nextStatus, updated_at: new Date().toISOString() })
+        .eq("id", requestId);
+      if (error) throw error;
+      showToast("Статус заявки оновлено.");
+    } catch (error) {
+      let message = `Не вдалося змінити статус: ${error.message}`;
+      try {
+        await loadCustomRequests();
+      } catch (refreshError) {
+        message += ` Не вдалося оновити список: ${refreshError.message}`;
+      }
+      setMessage(document.getElementById("custom-requests-message"), message, "error");
+    } finally {
+      select.disabled = false;
+    }
+  }
+
   async function inviteStaff(event) {
     event.preventDefault();
     const input = document.getElementById("invite-email");
@@ -576,8 +666,16 @@
     if (file) void importCatalog(file);
   });
   document.getElementById("refresh-orders").addEventListener("click", () => void loadOrders());
+  document.getElementById("refresh-custom-requests").addEventListener("click", () => {
+    void loadCustomRequests().catch((error) => {
+      setMessage(document.getElementById("custom-requests-message"), `Не вдалося завантажити заявки: ${error.message}`, "error");
+    });
+  });
   document.getElementById("orders-list").addEventListener("change", (event) => {
     if (event.target.matches("[data-order-id]")) void changeOrderStatus(event.target);
+  });
+  document.getElementById("custom-requests-list").addEventListener("change", (event) => {
+    if (event.target.matches("[data-custom-request-id]")) void changeCustomRequestStatus(event.target);
   });
   document.getElementById("invite-form").addEventListener("submit", inviteStaff);
   document.getElementById("invites-list").addEventListener("click", (event) => {

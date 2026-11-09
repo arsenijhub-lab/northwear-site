@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html lang="uk" data-theme="light">
+<html lang="uk" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f4f0">
+  <meta name="theme-color" content="#090909">
   <meta name="description" content="NORTH WEAR — каталог одягу з Telegram-каналу: худі, футболки, штани, шорти й куртки.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>NORTH WEAR — одяг із Telegram-каналу</title>
   <style>
-    :root {
+    :root,
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --page: #090909;
+      --surface: #151515;
+      --surface-soft: #202020;
+      --text: #f5f5f5;
+      --muted: #a3a3a3;
+      --line: #303030;
+      --accent: #e31e24;
+      --accent-ink: #fff;
+      --hero: #f3f3f3;
+      --shadow: 0 18px 48px rgba(0, 0, 0, .23);
+    }
+
+    html[data-theme="light"] {
       color-scheme: light;
       --page: #f5f4f0;
       --surface: #fff;
@@ -15,24 +31,10 @@
       --text: #20231f;
       --muted: #777a72;
       --line: #e6e5de;
-      --accent: #c8f169;
-      --accent-ink: #1d2512;
-      --hero: #e9e9df;
+      --accent: #d71920;
+      --accent-ink: #fff;
+      --hero: #f3f3f3;
       --shadow: 0 18px 48px rgba(32, 35, 31, .08);
-    }
-
-    html[data-theme="dark"] {
-      color-scheme: dark;
-      --page: #171916;
-      --surface: #222520;
-      --surface-soft: #2b2f29;
-      --text: #f1f2eb;
-      --muted: #a4a89e;
-      --line: #393d35;
-      --accent: #c8f169;
-      --accent-ink: #1d2512;
-      --hero: #282c25;
-      --shadow: 0 18px 48px rgba(0, 0, 0, .23);
     }
 
     * {
@@ -77,18 +79,8 @@
     a:focus-visible,
     input:focus-visible,
     select:focus-visible {
-      outline: 3px solid #90bd35;
+      outline: 3px solid var(--accent);
       outline-offset: 3px;
-    }
-
-    .announcement {
-      padding: 10px 20px;
-      background: var(--accent);
-      color: var(--accent-ink);
-      text-align: center;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
     }
 
     .container {
@@ -135,7 +127,7 @@
     }
 
     .brand-name span {
-      color: #8eb33e;
+      color: var(--accent);
     }
 
     .main-nav {
@@ -217,6 +209,7 @@
       justify-content: center;
       flex-direction: column;
       padding: clamp(32px, 6vw, 78px);
+      color: #171717;
     }
 
     .eyebrow {
@@ -248,13 +241,13 @@
     }
 
     .hero h1 span {
-      color: #8eb33e;
+      color: var(--accent);
     }
 
     .hero-description {
       max-width: 385px;
       margin: 20px 0 28px;
-      color: var(--muted);
+      color: #5b5b5b;
       font-size: 15px;
       line-height: 1.7;
     }
@@ -275,8 +268,8 @@
       padding: 0 21px;
       border: 0;
       border-radius: 999px;
-      background: var(--text);
-      color: var(--page);
+      background: var(--accent);
+      color: #fff;
       cursor: pointer;
       font-size: 13px;
       font-weight: 750;
@@ -299,7 +292,7 @@
     }
 
     .text-button:hover {
-      color: #8eb33e;
+      color: var(--accent);
     }
 
     .hero-visual {
@@ -352,7 +345,7 @@
       place-items: center;
       border: 1px solid var(--line);
       border-radius: 50%;
-      color: #8eb33e;
+      color: var(--accent);
       font-size: 16px;
     }
 
@@ -471,9 +464,9 @@
 
     .filter-button:hover,
     .filter-button[aria-pressed="true"] {
-      border-color: var(--text);
-      background: var(--text);
-      color: var(--page);
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
     }
 
     .product-grid {
@@ -492,6 +485,7 @@
       border-radius: 16px;
       background: var(--surface-soft);
       aspect-ratio: 4 / 5;
+      cursor: pointer;
     }
 
     .product-image > img {
@@ -505,14 +499,29 @@
       transform: scale(1.045);
     }
 
+    .product-title-button {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-weight: inherit;
+      text-align: left;
+    }
+
+    .product-title-button:hover {
+      color: var(--accent);
+    }
+
     .product-badge {
       position: absolute;
       top: 12px;
       left: 12px;
       padding: 7px 10px;
       border-radius: 999px;
-      background: var(--surface);
-      color: var(--text);
+      background: var(--accent);
+      color: #fff;
       font-size: 10px;
       font-weight: 750;
     }
@@ -717,6 +726,230 @@
       padding: 24px;
     }
 
+    .product-modal-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    .product-detail-image {
+      width: 100%;
+      max-height: 480px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      object-fit: cover;
+    }
+
+    .product-detail-info {
+      min-width: 0;
+    }
+
+    .product-detail-info .modal-header {
+      margin-bottom: 12px;
+    }
+
+    .detail-price {
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .detail-availability,
+    .detail-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .detail-options {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .detail-options label,
+    .custom-form label {
+      display: grid;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .detail-options select,
+    .custom-form select,
+    .custom-form input[type="text"],
+    .custom-form input[type="number"],
+    .custom-form input[type="file"] {
+      width: 100%;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface-soft);
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .detail-actions,
+    .quantity-picker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quantity-picker button {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface-soft);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .quantity-picker input {
+      width: 48px;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .detail-actions .primary-button {
+      flex: 1;
+    }
+
+    .custom-dialog {
+      width: min(840px, calc(100% - 28px));
+    }
+
+    .customizer-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      align-items: start;
+      gap: 28px;
+    }
+
+    .custom-preview {
+      position: sticky;
+      top: 16px;
+      display: grid;
+      min-height: 360px;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #f3f3f3;
+    }
+
+    .preview-shirt {
+      position: relative;
+      width: min(84%, 320px);
+      aspect-ratio: .9;
+    }
+
+    .preview-shirt svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .18));
+    }
+
+    .preview-print {
+      position: absolute;
+      top: 43%;
+      left: 50%;
+      display: grid;
+      width: 52%;
+      height: 21%;
+      padding: 5px;
+      transform: translate(-50%, -50%);
+      place-items: center;
+      overflow: hidden;
+      border: 1px dashed rgba(227, 30, 36, .8);
+      color: #e31e24;
+      font-size: 12px;
+      text-align: center;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .preview-shirt[data-print-size="a6"] .preview-print {
+      width: 30%;
+      height: 15%;
+    }
+
+    .preview-shirt[data-placement="back"] .preview-print {
+      top: 46%;
+      width: 52%;
+      height: 25%;
+    }
+
+    .preview-print img {
+      max-width: 100%;
+      max-height: 90px;
+      object-fit: contain;
+    }
+
+    .custom-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .custom-form .primary-button {
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .custom-upload {
+      display: flex !important;
+      width: fit-content;
+      min-height: 40px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface-soft);
+      cursor: pointer;
+    }
+
+    .custom-upload:hover {
+      border-color: var(--accent);
+    }
+
+    .custom-upload input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      clip-path: inset(50%);
+    }
+
+    .upload-hint {
+      margin: -7px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .upload-name {
+      display: block;
+      margin-top: -7px;
+      color: var(--muted);
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+
+    .form-error {
+      min-height: 18px;
+      margin: 0;
+      color: #ff6268;
+      font-size: 12px;
+    }
+
     .modal-header {
       display: flex;
       align-items: flex-start;
@@ -843,6 +1076,69 @@
       opacity: .45;
     }
 
+    .setup-notice {
+      margin: 12px 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .checkout-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .checkout-form label {
+      display: grid;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .checkout-form input {
+      width: 100%;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface-soft);
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .checkout-payment-note {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface-soft);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .checkout-payment-note p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .checkout-payment-note a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .payment-unavailable {
+      width: 100%;
+      min-height: 42px;
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: not-allowed;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
     .toast {
       position: fixed;
       z-index: 10;
@@ -884,13 +1180,9 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 26px 14px;
       }
+    }
 
     @media (max-width: 620px) {
-      .announcement {
-        padding: 9px 12px;
-        font-size: 10px;
-      }
-
       .container {
         width: calc(100% - 32px);
       }
@@ -1058,6 +1350,22 @@
       .modal-content {
         padding: 20px;
       }
+
+      .product-modal-content,
+      .customizer-layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .product-detail-image {
+        max-height: 280px;
+        aspect-ratio: 4 / 3;
+      }
+
+      .custom-preview {
+        position: static;
+        min-height: 250px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1071,8 +1379,6 @@
   </style>
 </head>
 <body>
-  <div class="announcement">NORTH WEAR · Одяг із Telegram-каналу · Ціни у гривнях</div>
-
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="#" aria-label="NORTH WEAR — на головну">
@@ -1100,14 +1406,14 @@
         <div class="hero-copy">
           <p class="eyebrow">NORTH WEAR / streetwear</p>
           <h1 id="hero-title">Твій стиль.<br><span>Твоє місто.</span></h1>
-          <p class="hero-description">У каталозі зібрані худі, футболки, штани, шорти, куртки й інший одяг із публікацій. Наявність, розмір та актуальну ціну уточнюй у менеджера.</p>
+          <p class="hero-description">У каталозі зібрані худі, футболки, штани, шорти, куртки й інший одяг із публікацій. Наявність, розмір та актуальну ціну підтвердять працівники.</p>
           <div class="hero-actions">
             <a class="primary-button" href="#catalog">Переглянути товари <span aria-hidden="true">↗</span></a>
-            <a class="text-button" href="https://t.me/Manager_0603" target="_blank" rel="noopener noreferrer">Запитати менеджера</a>
+            <button class="text-button" id="open-customizer" type="button">Запитати на сайті</button>
           </div>
         </div>
         <div class="hero-visual">
-          <img src="https://cdn4.telesco.pe/file/va0SH2E4jdywT0Zyl4ZMEnk_HnBUS2CsXen8jJbu3CjIPurOx6FbSjbTIcF-TXxivKPhKEnzL8QXifAgiyae4Q4q-tqU6ogrnbxdhBOvLLRKaYNXmnoTPLWuBKEvNCYGX5_2xb7aYgOq195GAuSaMRwBmlhqVNcZikq6L-NttQrLpZZaNVi1Slwjds335XuQBOF49tEKa6NQreKy0shh5SJKYBclKcrJQNFXjXU_B8G-oKjdTk8JVvwOLsW_hK0x9LODCCug267EYSv6TBglSS3KVN9oI1t7vgV4vgfewgVUGcKsD24mAqZ8HoX_6v2JSg8KuA3ryviXp4vbzm1M6A.jpg" alt="Худі з принтом міста з каналу NORTH WEAR" fetchpriority="high">
+          <img id="hero-image" data-product-category="hoodie" alt="" fetchpriority="high">
           <div class="hero-label">Твоє місто — твій принт</div>
         </div>
       </section>
@@ -1144,6 +1450,7 @@
 
         <div class="filters" role="group" aria-label="Фільтр товарів">
           <button class="filter-button" type="button" data-filter="all" aria-pressed="true">Усі товари</button>
+          <button class="filter-button" type="button" data-filter="best-sellers" aria-pressed="false">Хіт продажів</button>
           <button class="filter-button" type="button" data-filter="hoodie" aria-pressed="false">Худі</button>
           <button class="filter-button" type="button" data-filter="tee" aria-pressed="false">Футболки</button>
           <button class="filter-button" type="button" data-filter="pants" aria-pressed="false">Штани й шорти</button>
@@ -1162,7 +1469,7 @@
           <h2>Не знайшов потрібний принт?</h2>
           <p>У каналі пропонують зробити принт із потрібним містом, областю чи селом. Напиши менеджеру, щоб уточнити можливість, розмір і актуальну ціну.</p>
         </div>
-        <a class="primary-button" href="https://t.me/Manager_0603" target="_blank" rel="noopener noreferrer">Запитати менеджера <span aria-hidden="true">→</span></a>
+        <button class="primary-button" type="button" data-open-customizer>Створити свій принт <span aria-hidden="true">→</span></button>
       </section>
     </div>
   </main>
@@ -1178,6 +1485,124 @@
     </div>
   </footer>
 
+  <dialog class="modal" id="product-dialog" aria-labelledby="detail-title">
+    <div class="modal-content product-modal-content">
+      <img class="product-detail-image" id="detail-image" alt="">
+      <div class="product-detail-info">
+        <div class="modal-header">
+          <div>
+            <p class="product-category" id="detail-category"></p>
+            <h2 id="detail-title"></h2>
+          </div>
+          <button class="close-button" type="button" data-close-dialog aria-label="Закрити товар">×</button>
+        </div>
+        <p class="detail-price" id="detail-price"></p>
+        <p class="detail-availability" id="detail-availability"></p>
+        <div class="detail-options">
+          <label for="detail-color">Бажаний колір
+            <select id="detail-color">
+              <option value="">Не обрано — уточнити</option>
+              <option>Чорний</option>
+              <option>Білий</option>
+              <option>Сірий</option>
+              <option>Червоний</option>
+            </select>
+          </label>
+          <label for="detail-size">Розмір
+            <select id="detail-size"></select>
+          </label>
+          <div class="detail-actions">
+            <div class="quantity-picker" aria-label="Кількість товару">
+              <button type="button" data-detail-quantity="-1" aria-label="Зменшити кількість">−</button>
+              <input id="detail-quantity" type="number" value="1" min="1" max="99" aria-label="Кількість">
+              <button type="button" data-detail-quantity="1" aria-label="Збільшити кількість">+</button>
+            </div>
+            <button class="primary-button" id="detail-add" type="button">Додати до кошика</button>
+          </div>
+          <p class="detail-note">Наявність і бажаний колір підтвердить менеджер під час замовлення.</p>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal custom-dialog" id="customizer-dialog" aria-labelledby="customizer-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="section-kicker">ТВІЙ ДИЗАЙН</p>
+          <h2 id="customizer-title">Зроби свій принт</h2>
+          <p>Обери річ, розмір і місце принта. Ціну та можливість виготовлення підтвердять працівники.</p>
+        </div>
+        <button class="close-button" type="button" data-close-dialog aria-label="Закрити конструктор">×</button>
+      </div>
+      <div class="customizer-layout">
+        <div class="custom-preview" aria-label="Попередній перегляд виробу">
+          <div class="preview-shirt" id="preview-shirt">
+            <svg id="preview-garment" viewBox="0 0 280 280" role="img" aria-label="Чорна футболка">
+              <path id="garment-shape" d="M75 41 112 27 Q140 48 168 27 L205 41 245 82 214 104 198 88 198 250 82 250 82 88 66 104 35 82Z" fill="#171717" stroke="#111" stroke-width="2" stroke-linejoin="round"></path>
+              <path id="garment-detail" d="M112 29 Q140 53 168 29 M84 92v154 M196 92v154" fill="none" stroke="#555" stroke-width="2" opacity=".55"></path>
+            </svg>
+            <div class="preview-print" id="preview-print">Твій принт</div>
+          </div>
+        </div>
+        <form class="custom-form" id="custom-form">
+          <label for="custom-product">Одяг
+            <select id="custom-product">
+              <option value="tee">Футболка</option>
+              <option value="hoodie">Худі</option>
+              <option value="sweatshirt">Світшот</option>
+            </select>
+          </label>
+          <label for="custom-color">Колір виробу
+            <select id="custom-color">
+              <option value="#171717">Чорний</option>
+              <option value="#f5f5f5">Білий</option>
+              <option value="#d71920">Червоний</option>
+              <option value="#888888">Сірий</option>
+            </select>
+          </label>
+          <label for="custom-size">Розмір
+            <select id="custom-size">
+              <option>XS</option><option>S</option><option selected>M</option><option>L</option>
+              <option>XL</option><option>XXL</option><option>XXXL</option><option>XXXXL</option>
+            </select>
+          </label>
+          <label for="custom-placement">Розміщення принта
+            <select id="custom-placement">
+              <option value="a6">На грудях (A6)</option>
+              <option value="front">Спереду (A4)</option>
+              <option value="back">На спині (A4)</option>
+            </select>
+          </label>
+          <label for="custom-text">Текст на принті
+            <input id="custom-text" type="text" maxlength="80" placeholder="Наприклад, назва твого міста">
+          </label>
+          <label class="custom-upload" for="custom-image">
+            <span>＋ Обрати зображення</span>
+            <input id="custom-image" type="file" accept="image/png,image/jpeg,image/webp">
+          </label>
+          <span class="upload-name" id="custom-image-name">JPG, PNG або WebP, до 8 МБ.</span>
+          <p class="upload-hint">Додай контактні дані та надішли заявку. Працівники побачать її в кабінеті разом із зображенням.</p>
+          <p class="setup-notice" id="custom-setup-note" role="status" hidden>Онлайн-заявки ще не налаштовані. Спочатку потрібно підключити Supabase.</p>
+          <label for="custom-name">Твоє ім’я
+            <input id="custom-name" type="text" maxlength="100" required placeholder="Наприклад, Олена">
+          </label>
+          <label for="custom-phone">Номер телефону
+            <input id="custom-phone" type="tel" inputmode="tel" required minlength="10" maxlength="14" pattern="[+]?[0-9]{10,13}" placeholder="+380991234567">
+          </label>
+          <div class="quantity-picker" aria-label="Кількість виробів">
+            <span>Кількість</span>
+            <button type="button" data-custom-quantity="-1" aria-label="Зменшити кількість">−</button>
+            <input id="custom-quantity" type="number" value="1" min="1" max="99" aria-label="Кількість виробів">
+            <button type="button" data-custom-quantity="1" aria-label="Збільшити кількість">+</button>
+          </div>
+          <p class="form-error" id="custom-error" role="status" aria-live="polite"></p>
+          <button class="primary-button" id="submit-custom-request" type="submit">Надіслати працівникам ↗</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
   <dialog class="modal" id="cart-dialog" aria-labelledby="cart-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -1188,9 +1613,44 @@
         <button class="close-button" type="button" data-close-dialog aria-label="Закрити кошик">×</button>
       </div>
       <div class="cart-list" id="cart-items"></div>
-      <p class="shipping-note">Наявність, розмір, актуальну ціну та доставку підтвердить менеджер.</p>
+      <p class="shipping-note">Наявність, розмір, актуальну ціну та доставку підтвердять працівники.</p>
       <div class="cart-total"><span>Разом</span><span id="cart-total">0 грн</span></div>
-      <button class="primary-button checkout-button" id="checkout-button" type="button">Написати менеджеру в Telegram <span aria-hidden="true">→</span></button>
+      <p class="setup-notice" id="checkout-setup-note" role="status" hidden>Онлайн-замовлення ще не налаштовані. Спочатку потрібно підключити Supabase.</p>
+      <button class="primary-button checkout-button" id="checkout-button" type="button">Оформити замовлення <span aria-hidden="true">→</span></button>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="checkout-dialog" aria-labelledby="checkout-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h2 id="checkout-title">Доставка та контакти</h2>
+          <p>Вкажи дані доставки — замовлення з’явиться в кабінеті працівників. Оплата карткою ще не підключена.</p>
+        </div>
+        <button class="close-button" type="button" data-close-dialog aria-label="Закрити оформлення">×</button>
+      </div>
+      <form class="checkout-form" id="checkout-form">
+        <label for="checkout-name">Ім’я та прізвище
+          <input id="checkout-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="100" placeholder="Наприклад, Олена Коваль">
+        </label>
+        <label for="checkout-phone">Номер телефону
+          <input id="checkout-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required minlength="10" maxlength="14" pattern="[+]?[0-9]{10,13}" placeholder="+380991234567">
+        </label>
+        <label for="checkout-city">Місто або населений пункт
+          <input id="checkout-city" name="city" type="text" autocomplete="address-level2" required minlength="2" maxlength="80" placeholder="Наприклад, Дніпро">
+        </label>
+        <label for="checkout-branch">Відділення або поштомат Нової пошти
+          <input id="checkout-branch" name="delivery_address" type="text" autocomplete="shipping street-address" required minlength="2" maxlength="120" placeholder="Наприклад, відділення № 12">
+        </label>
+        <div class="checkout-payment-note">
+          <strong>Безпечна оплата карткою</strong>
+          <p>Рекомендуємо підключити інтернет-еквайринг Monobank. Платіж проходитиме на захищеній сторінці банку; дані картки сайт не зберігатиме.</p>
+          <a href="https://api.monobank.ua/docs/acquiring.html" target="_blank" rel="noopener noreferrer">Документація Monobank ↗</a>
+          <button class="payment-unavailable" type="button" disabled>Оплатити карткою — ще не підключено</button>
+        </div>
+        <p class="form-error" id="checkout-error" role="status" aria-live="polite"></p>
+        <button class="primary-button checkout-button" id="confirm-order" type="submit">Надіслати замовлення ↗</button>
+      </form>
     </div>
   </dialog>
 
@@ -1201,24 +1661,24 @@
   <script src="catalog.js"></script>
   <script>
     const products = [
-      { id: "north-face-hoodie", name: "Худі The North Face", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "З каналу", image: "https://cdn4.telesco.pe/file/T1GSkSP-1epX9vDLjtK1reMlsoknLmSzklBSZevzRAIuHQktLmlvg9PbjmIx9i_yhJ9rSXSbmMRUCGrEGQ8xN7mHM31dyhnvUm9xPdkcG6VoOxmhdj_I6KsHT64yaWlCMq5KFZ1hCiNLipRs0nKsf2RfcRdPP7DkAWpIoYPI8dGeO4IQD_UC1VwnXYr8yqDmY65FJezgQeQiTtlJfuaU9BAKAX6h5GpKqzOF8pMPlgv_lJ3MBquAGGulRUcgiHc6ybGwkxA0F5PMyLd_YBUyKjpwughpVxf9vZ4I2MetMQdmOlk0Ks_XG1yUk5IR09jFsrJrmMLl-RdgTvEij3sadA.jpg", alt: "Фото худі The North Face з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1247" },
-      { id: "lonsdale-hoodie", name: "Худі Lonsdale", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/pPOHqv714E17qFrUI2U844isYj1I0d9betBtBHERdvxZG5eR_QJ1mOR1ntDRkFh_7ORMcpYGHH4ikbgva1g2Mi2I1qZSHotBaFUn80WbEBV4C0NW-QHgI2qcD4zMLYdz93oLM22bzby3-qySZ1x7xih61UrkXQ9-OlI4l810asx49xKs9KHBDURKolRSMy3vzPyuPs44FOIqm2aTMMZyoKhaTjILKNtcSljEORI5Hfz9BpPzNSwR7_V5PsF9w168I47GMjAjyiTZ2b1wiDFtXOjvkhrIrSH9cqovZohomdRbydmaYgH8_2KYtdH2qDyvafPBwrVShpyLEdXFWLW4fQ.jpg", alt: "Фото худі Lonsdale з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1253" },
-      { id: "new-balance-hoodie", name: "Худі New Balance", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/ix23hlG1wu_0rH9kYpgw7b4hvymJ3yMGEPEAdBWKKPUiUmeV3chBKCPFt8Z4EiqB9DL6_gnF44J2fygieMPpWg4tu-HfTOP64C4UISOAE87KiItQUDZXk7Bmns4TuulKJdxO_8ZtDZI1lVFmuJdyfoTEN4XxlybFCg3Hmgwx37sUa1SHNe97T6RJciiMBxIKRrrxe4VRfy3nuaenFkRu68qeHw9wvbN5Ji2yjdrVcljra2ah0iriKRQP-sFOftueCIluV9F0HFxmHcQ6nPJoJ5QOEUHR8nI7FChQqxwyIzdD4llabmz6XYwX4k-6EvWG1J2h-qXrpya5bX6OZq6FtA.jpg", alt: "Фото худі New Balance з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1255" },
-      { id: "manto-hoodie", name: "Худі Manto", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/pMnme-dvuI78BWaoAf6QeDzoZr617OhG-EQKDS6KNCMlBe1BXltpNxDXI8aSrN1V3xJxHfwgaXsfKtlu5hxUXwcxzlgNiEspoFSlq5SBRt06WVtaKC6DEqqEj2R3gLQti4M1hFa2vmVBWiFKDoxBuYBva7tCdh99RHNnRf60Fu2fsuDYnPDbolowtEqteuA6ejaj-pUoJj013oNJvrEx83wI2r_7sUkgQiSMmCZqsAmk3DhbYsDvULZR-taE3OXD3iITKj2Q5B6YfZBAmk2RguBrxwnrrV64NNvlbJA-QRfoabB_cE5cagD78Pzd-2gIubJ4mhj7bd6dLl_EILsmNg.jpg", alt: "Фото худі Manto з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1258" },
-      { id: "lacoste-hoodie", name: "Худі Lacoste", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/n0mi49uQSCDikbqRoLE9lRwvPE0sj5MbVj-_9yrK3fRs0pWfcJudiedZWteStTHQu1OMNqcDdOtIc9QD5wunkFYMwan2adZS7N72EtTdsINmC4ck8DQMMvMqvwD7H7d6R0jmZ6QRJJkDI8atmTKAsjLj16s2997MpFuJqV7t6bfaEDjlVrSlVI6Go1I0lbDcKxLaw8OuRnV6OfbVzmm5xNAIoZzUSsW9QVo87uHDzZq2PDvkvaSQXfO3Ulfn3iPZKt4OI2kjJqvo41b5FoKZkE-6P6r98InMvmplUPK8dSqJDhumxBx8J_y7CA6qpU7ZDgocMj6hzvPLtKqJE8z1VQ.jpg", alt: "Фото худі Lacoste з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1262" },
-      { id: "venom-hoodie", name: "Худі Venom", category: "hoodie", tags: [], label: "Худі · принт персонажа", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/i6KEIwGBEqSrfYwGmzLw1YiRNBhZWm9dEjJpSfQLPgDxb37WJAxe319AOcO6XKFQnTbNlXxmf0p_EsEjmDcpjJrdjUra1bsym2zI6SMz5TK6UDDX5V0is_YKXAY__-B7J8w-_nXBNN7Z_6Ibbf29YX_AzNpxmlFl1-zn2hRrRhjhL7yxxl6OCVP6ClP4HV40FpAZ3NJ60rJyiF4MycCQ14MCvi7Pua6j4t20BeGKz62TLPs9b2wdE7KP_IKnpq6Sc2xvXaf9Pvmwbb0ZPWUrjVDBcbHT6T8vR1q3xWO0dxaLzjR241LABZgF0oSIJEh9HYbenBH2HQ5Bxre314A2ZQ.jpg", alt: "Фото худі Venom з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1263" },
-      { id: "ellesse-hoodie", name: "Худі Ellesse", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/Pt6fKdMSpdKqqdCd5OLZVNeKuF_zvIUqil-ZOLSOqvwH0Sv1cEV7jy45qBwuXbgWWce6K_33uCp7DEDqagsI7OY06_HlbO7v9tyZOm090bypGj0xXLoYz5bt2IDfD9pWtKmymvxe4-RI2Qh8MWVkQl3HQyAJGHrPHNglCVbcjHmZ7sn7AYf5PvN0xjybsjv3mkzvcBTQW4YRKafdTJmSQpj0-6aybTdUHFxYUoSq4POn7f141rpavaemJeXamlqwcOSTKPd39S_8LEmKCBgWr_rhLY2W06lJiqGx7H6lqLhzz40VsIEC1XrNbFUzvGrETN05ahs3zq0VitLu_RgygQ.jpg", alt: "Фото худі Ellesse з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1264" },
-      { id: "custom-hoodie", name: "Худі з власним принтом", category: "hoodie", tags: ["custom"], label: "Худі · індивідуальний принт", price: 1350, sizes: ["S", "M", "L", "XL"], badge: "Зробимо під тебе", image: "https://cdn4.telesco.pe/file/InvR26rMT6pyC6oDPLQen0DjHr8gtKSaoSyLrsv8V_OMizolcWDIQES6jGA28uKk-9QW7A7XT5dgYXQH4Nalgifkji7OFs1-Pd9gCD_G5i_KjSt-cp09uBTIL-w0zzgGy39HZO1bVs0fbHQMyR3ln1ojU6Yy2mwS0rlM7m2B0NILUoTKygP5LVHJ4EVVdzuVvGfF491IxlfRa0y0awJ3mG3k5k9aQCmfVFEU_yWpMGQJMGlQqdxsQTOeYWCFN5MMW7MpUp_Z_NtmNRn7wF9fwCdFOfc2cwPDW--HZE4Kl_ypBrMhexMIhD4-qNVljqqXXkLyquMXXKha_CUzSfeYPQ.jpg", alt: "Фото худі з можливістю змінити принт з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1269" },
-      { id: "printed-hoodie", name: "Худі з принтом міста №1", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "Новинка", image: "https://cdn4.telesco.pe/file/va0SH2E4jdywT0Zyl4ZMEnk_HnBUS2CsXen8jJbu3CjIPurOx6FbSjbTIcF-TXxivKPhKEnzL8QXifAgiyae4Q4q-tqU6ogrnbxdhBOvLLRKaYNXmnoTPLWuBKEvNCYGX5_2xb7aYgOq195GAuSaMRwBmlhqVNcZikq6L-NttQrLpZZaNVi1Slwjds335XuQBOF49tEKa6NQreKy0shh5SJKYBclKcrJQNFXjXU_B8G-oKjdTk8JVvwOLsW_hK0x9LODCCug267EYSv6TBglSS3KVN9oI1t7vgV4vgfewgVUGcKsD24mAqZ8HoX_6v2JSg8KuA3ryviXp4vbzm1M6A.jpg", alt: "Худі з міським принтом, варіант 1 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
-      { id: "printed-hoodie-2", name: "Худі з принтом міста №2", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/bBD_203IDxmO5U2k_uiTTcXqcTU_b70Z_LGaVXL_QtOui6zS8qZTLBc8I6LbWq_p2FSm1FqAWR-YFLDaLxlp-WZXthsmFcseI4L8Y7qHidH_lOviLPFf3W6T1k6XAnASo0gkhYlBSg85r6ysVD3gt936-xnTAojdjGadm5t82Im98r8WO8Q00_HUJ7BjtXizmeOFGQ6NePv4puafJ1MXp-JQoOsUspzdTYyrlKoUBJdV6JWLSaEvvwp9s3UFE7JSlWSGe53Gi7yKsRDG7Xmr1RylIjMx0Y3_wIEnCkjhaoEa-KTUzIB8U-Ygo5iBkEy9BoxUXmFuIPYxPmBy8NRbdg.jpg", alt: "Худі з міським принтом, варіант 2 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
-      { id: "printed-hoodie-3", name: "Худі з принтом міста №3", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/pOO2SBfff15pYjqGZxojxudMDhkbPr7Oy9kpl9aHJBDE3fTHgB0HqrAcww4dMLvOEWbC1Pk5c2Yay-3jMqgytnfMVzB-_dT-M5VP_KbctseTnQy0VpqAbATyo_1QwNLMvQl4iq-GSQmiVEylMOJt3C3IZ68Zo77A5WgeINYIKghuTfy37ZhgtxOERk9CSDzWPLz0HFCbeAE7hvFpsc6fIRCiS8UgF1iVYSR2cMFKcAFjp961rY5kMdQe5tLvoUxZw3yy-A7d_Mbm3yt8gJAjC3YEJK829cBKkzgHVn46-N0FKUDNFYbJymmLE5VUQpYgVtwiv6eUFSAj66r176od_Q.jpg", alt: "Худі з міським принтом, варіант 3 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
-      { id: "printed-hoodie-4", name: "Худі з принтом міста №4", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/YWRmOHnKbo1w0ZHr9tGZk1OByKJsU5rbc_XKWlOcYYgwMi9Kl2h-u72CB0moEo3C0x41vPqGWVyqcdaadLfxzjSl7Lu1N7sKTt84DobL4jr829H1J05DFWOpRSJ2yJhQif4oOFmhU3uXXgi1PJtYL6hX9M1zYfXq2kaHblwAya4Oyq1Mxh9fbpvifBMVvJoXvk_nx8zIwTGsQGtDhXjCXeYPX-VtsFqhdosGQ4PM8NawYHgDzeFJWNNbCYuTN7iu6o3CfIZjQPt6U9t7UqTeCSbWTH3_hj2qWxxIOelMPLXdMYiiPy-rUu3QqgVOD9LvERiN5i8tiNfx0MuzEsezzQ.jpg", alt: "Худі з міським принтом, варіант 4 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
-      { id: "printed-hoodie-5", name: "Худі з принтом міста №5", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/fpdjAnpa8VyUX2T5px4B_59TeANYl0bJHWS2LPK6k3Gy0lam_w9qkQboyXfPLSIktVfRIE-Fdh0dsygE_TLVwmo-19KWGUCwiigQ5IJLzOlnUXrTOybW6skEsu0pvMsoal2solprdd_5hcWe440D9gR8i1i4dKEP0IRTAXULwbuiW2ElIObbx98XiJ7AhOIs7jf2wjjxm0pbQplOfCjevN4kIhfjhX2GgrhDDTUCezq4Ls4mukAf_xddEzGIv7fgxNiRe_KNm4z-H75pEec4a6WwUIvcacpx_c6rOROhArs4ZAgmOtbf4AcrkXzSR3ByhAHyMBfvMoTEB28YGPGiGQ.jpg", alt: "Худі з міським принтом, варіант 5 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
-      { id: "printed-hoodie-6", name: "Худі з принтом міста №6", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/Hb8WTzlm5e0IOBGd-xXuNMyQlcsDrcpyrFEBP6TFoUqlRXOST0u1xUwe4AcBlJjb9uTjXnmYIUL4aVyCNIGACtIwwSO8A8EW0HGvgPiffDvehmgCkVnZGLiGVkgk3WPCa5DAkyFGEtt38cPTGoy4m9TbpjRT7b6zhKhSVoLgTqyCHDWle3PK-5_ijVF9Ov-ZgkLMgT9HC0urobbP87qeJI8MJYAEIvrcKZJx3j6y8F5P5vcAiVh8x-frNQT5bZ4mTELJby5_68vDvxlk-PClyLww-9A3DqpwjGDdwbB_lZTUXkj2TVbgHRfOFcYJSHdEAOv7sDoORJHfa1IP-oGZIw.jpg", alt: "Худі з міським принтом, варіант 6 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
-      { id: "printed-hoodie-7", name: "Худі з принтом міста №7", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/kAlrIXQdGFZwNGStg0fglzczWYj3MgTJTcFYaQShoHoyDSjXTWM7l53CItJweNst4Nf82OVENPHd51fQWhrL0U6ZBQF_6vghx8nW97s-qJR-sKsA3srd0IS6mrgtVD7Pyknv_yDjHT6C8f5DrvQVKukvJb-_NSXgloZxWpt1XNM6Hn4yWg2syU6_FFSc2x3a5qQLKX-4JiXVXhPAisbtU6xCyc5OkyHGQ2NRQkP2I2mCgb3DiJVH5mjnaIAFyhLnf8zYtsh-I4e8Yi31F9kHvE1YW2mMNyhELOkllNYYie8zjdTUBcuA75M46Ba5G2qcb5ZxGS530Fv67aeypYxIbQ.jpg", alt: "Худі з міським принтом, варіант 7 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
-      { id: "printed-hoodie-8", name: "Худі з принтом міста №8", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/PPvl8pNyEhLDB0QYTHbN3ApJtG36jp4KilrPFiAkPCFLKwZyutc6U-Xv_dUoVq6DTcIcXiGCpIRupCXnbrEKsZaBnwWPFvdP4rl6MSucoAxGHWL3JEOFzuLTGW20JhPIOekmiJ5uQpT2njFwSyJaTRojHry9jSjDVYIdNgU9NQkVcJu78gV_c19yE0-JRrxZTX9clQyeEUrZHtYYNQ74OnI56vVXQyqFRoSJFN8JGKaOtYPFV4pyzwK4kYeoRKq6RO94yuhQBUVFV-wbBRu2WyGy37NJGOOuIBKcMVPBQLyK6IZJicKnLnZiUKhfhBjIcaL1XYOZC8xtBd_B-LSndQ.jpg", alt: "Худі з міським принтом, варіант 8 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
-      { id: "tee-print", name: "Футболка з принтом", category: "tee", tags: ["city"], label: "Футболка · принт", price: 800, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL", "XXXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/pp5VfoCydXmixgnQDO4WRM9R4Rnscu996Wow8NUk409QMlI4ljAWhr3lSNTXd6U4Q_oQ2vlNy61MLcrf0bWnS-yZgBO0fGtass8Wac8nayZiMk5prgyFMOUyHnC2Cei8VbIooY58azxhzsCrTa4Af6yKY5aOHw3xCVx6oAIzG0LAShNjwiJmi_Zes-NZtG8TPcX3Vp53gh4vH98WRH6Nc_fxcBHlyne-vVLnpA0ATCLeAwiJ1aXITtGmT-zfC41zNaDVN8_yN3Pwv9PAj9xgb2JHGgeeKN9kGJc2u_-BqvlTp-tuPTN_hnRZiSMZ9xvwsrocPIaEid0GMFqFHMlmoA.jpg", alt: "Фото футболки з принтом з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1274" },
-      { id: "city-hoodie", name: "Худі з твоїм містом", category: "hoodie", tags: ["city"], label: "Худі · індивідуальний міський принт", price: 1500, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL"], badge: "На замовлення", image: "https://cdn4.telesco.pe/file/gO6qsQy9DW5-7opgTvpZveVQiP0K7ykwuScPcEtgp689yhamJS_4ZZ_3L5LJWHJqcgtFjjYGOS2j7goCpRL3e6z0xZrpEvjH1KS53aD5u93D3Wg92eOtaeWK3WXw_qlAstKe-iQz0Y99NXBg9XcOvrxQPT4no7l5JnyVz2fLcF2x9dCuoPNvJlhsEN_NlMskD5sHNFqY27cjEZS3Y9bTzZDvLDN7PpyGRhWX_xHDwD78lW5pMgb-_zG529_wNtSgz7C40OH9Dv-WPPG57Yy-hykWKG3bfcKYezplKnvbxGLG239RG2n-4MHCydKE_WsmBqI6-xDDqiVrBd-h-ppADQ.jpg", alt: "Фото худі з індивідуальним принтом міста з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1307" }
+      { id: "north-face-hoodie", name: "Худі The North Face", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "З каналу", image: "https://cdn4.telesco.pe/file/mfb2ujMdCxubZv_IMJpEIBxPLvOEsLhMUy4jfa43Z8Qs4VsJpYSrZQXQNxYfXchKY6fUQEHG5buH8dUi1BpvzWlaorl68kIyUN2y_HXOeTOA3iL6Gm1PqhtXbJl92JNM_ZuACssRyDzdnen_cavvPFtQ9jAw-f5swqWROikTEYyAtT7Fy4EToRsPYhvsNU5XVYs0wyjc0ZeFu7Lz5C0rHhl3df7szaS3AsmEQWtWx8xMbt4NgYgFRj97Uxt_P6e-A-VxW421qhydW_gJ7-kgB23uApot5eQglzlcbOgYxULhgSLhcA8i5oweK0VaKW8elrgXdoD0l7rlGoSkEWcb2w.jpg", alt: "Фото худі The North Face з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1247" },
+      { id: "lonsdale-hoodie", name: "Худі Lonsdale", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/owxnWKIe8N3oqVWPJyNBLcvwS7WbkdRws-27wSYhtS93s9b_ybgk83eBO7Ev7ewlofXEQhctvaaL-uhAnXTcOCYP7DJiPJNTaVnmvO9q7DY35Mv5TFakgyVnLAddIXd9No8XOuu8fWE0DR3xH8yYvrQFqV7ouk8bXh6ba78MEHKoM1KsfzRQb3DWaM2whtmGAOG5sKHv6KSfCoWOyZCvOSDmyLGTrfh2P7NgO1vEoeAfq-1f142favYJJc4Pl5SNZk6i1P5RL0Iq45PB50CwMEbiemG40yEdLh58oDidZFfOlim828leJeAK-4M3my7tUICbidU0tklfLocPouObWw.jpg", alt: "Фото худі Lonsdale з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1253" },
+      { id: "new-balance-hoodie", name: "Худі New Balance", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/ojl2VrN3jbrMT-VP0ANIzv-OKa2_6nc6_ZNsk9v-eC_uLMWh48r9WpEovJclHc0m0bw3UelcUUJmUgkOCFE_M6lEm4orPcNt4c6aKfDwqO9FuBn9OQLmM6emIakugh7JWrq4KPssXOZiRYGCmtPhkvzdsWEf-gSTVjGJqJ8fs6RHocLNwh_lfZn2NEK47KXSvl-2F9T0hurr_Tfzolo2d_pcZtg1UHyiZcjyweIVAJFKxmElx9B9kUTXeoiJWoKnHENafOfZTPnGH7xonTEnzK4OG8QUwhI1grbZPHdYDN495hbZJeQAZ9ckJ3Wn9C2DuDgqPQjKoUxfgwqC6iO0Cw.jpg", alt: "Фото худі New Balance з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1255" },
+      { id: "manto-hoodie", name: "Худі Manto", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/BrUiweIIm5IuVjYFabcTL1FrOBIh5RiJBv4DiOSDau2Qq5L9PxRANhLOypXRjdllyIzSJFpQtY0PaZwWFFb4YPeNzWED8ESec-0f-qAqbq5KXhqRwW44MSsJsdATqtvi9IaUn3GmLnwb0LNjwMFGHHJa5VmZzA7LXLPTRUx8VHcgvczQ0ptHTS2I97jQ6lHu8E-X3FNfE19z597QgyAHQVg42VtfFpEIYFzEojFV3lH7s4lcuh3VeqhO8O7GUbSeQDQZbeEkerHWiy-bG81dPeg6EvupwWqOPjm9nWylcX4_WORhDNlmXwtzEGwqdzj3SKZ8o18COYEjZtOpnTjrew.jpg", alt: "Фото худі Manto з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1258" },
+      { id: "lacoste-hoodie", name: "Худі Lacoste", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/l9KaEYZUNu02jMEJVC_-9DoWMEBQ-iA0_17Iva5ll55TBfegFYOy5gdlMIF-ky8FppFMS6TCWovwZwM8Z13SWcSg9eAVCjcOaMLRDa8bpyNtHTRnvn1ienPAraTzqkhqXfq8kkErPeDJEaM6C4658vvAf0SnMo_vTscQrKUSsJ25uD0MbmWz855eorfEX2lkmoJIXpOgs1aKupbqASIB2LPxP4sL6tfchj-zfkGGLngHjUxVXZUxKaRAT07f0CkLkR2CpYUBpAcDxftZiMibUI2cCi-DCUBtbNO9Ge2QfwOE-AmSfLmqg_G3x6eWfdJSHuLlCFdmmi3IkUoGYGlFNg.jpg", alt: "Фото худі Lacoste з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1262" },
+      { id: "venom-hoodie", name: "Худі Venom", category: "hoodie", tags: [], label: "Худі · принт персонажа", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/MAWe1JnF81d54t-M-abHTwE6zi5TmPi8aDngU08-xbmR78zG_K4lhN4MfEm23didQWmUK8Kjq4qnNAc3aTpBq_bSx85losdNZ88cQV1iwi_JRRJo5Rz5DW0r8BnJ238YmLoNk8pHtRB4G6Fq2pAousZwjVPpr1wLweVHOqtAanmIkDZMrUDVqq9xDRDtvvwarwEMnPECtfewckgziquw8yv9QpfUHnBOTfrpWwz16Lwsu_AY3T2xAZNwKW4yvbeai_WLIlu5wMu1VHx1PqvKmmVOcbWlGcHIiRaJHp5NYKOXWh_n4PCxUs-y9CVsW55FsAUWe7Lk73JVSZsJmdvfgQ.jpg", alt: "Фото худі Venom з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1263" },
+      { id: "ellesse-hoodie", name: "Худі Ellesse", category: "hoodie", tags: [], label: "Худі · принт бренду", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/N7xRySRyPdP8Qbu2Q4yioqfp8qfVULSqkcGib9tuht3c11eUg5SKsC8Zz57-tYkjE5d3L_S-ZPV6EA7aoHkzbifchmjz0DVu2uaNHIS0DfMQoiQhBM1ygF8Ni8py1eKXMN08hMOZ3QMJqH1u-KIi3fhGXPmQPsEu7YHJAndQL41Nw-ERcLB1cEsTsS8ap9PilbnsITbnY5Kt2A-1HFCUekeGi6NXBWHEc1s2jjk2YDhdWUsvQEEIIX7SSbRxylWtAE-hI_e8NBIZdyHpB0HGXoM1uC_Q48FyTerlUWZ8d6T3h6Ct37o-iHESVsvio6aPFKwBiOU2jLVdgoFPRO0ZRg.jpg", alt: "Фото худі Ellesse з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1264" },
+      { id: "custom-hoodie", name: "Худі з власним принтом", category: "hoodie", tags: ["custom"], label: "Худі · індивідуальний принт", price: 1350, sizes: ["S", "M", "L", "XL"], badge: "Зробимо під тебе", image: "https://cdn4.telesco.pe/file/JrKb5yX4COV1JSzlu3okMRrrUXghzuArv2Ix0mOLCKB5kRHE0JupIVJWk-9kjNrj7O4uYfkBTmcy3tTeao-t_lR0Iq_6E1VUKJvsvTCYu_eFJzMtz8G9IQzgCpjfG51aoNNJjk7-zCoeWD6Y8m8J5U3jiz6lvUtzXWSvUiqjqhtG8ssDuvEe3fGE6e-Rhe8VRA_p0UcnQM-AVWfQdyjE2Gp53KnvqITbM1ceITYVbagLWfiL0zGcL-pmCwcgntpD4dvj_4VsPJgYrUU1obfm77dRjBttCFuNWcJBvxFL644jI6YLRp_ZGYbzxD5VNUql0yYHkZ5dU2zYdAk9HUOirw.jpg", alt: "Фото худі з можливістю змінити принт з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1269" },
+      { id: "printed-hoodie", name: "Худі з принтом міста №1", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "Новинка", image: "https://cdn4.telesco.pe/file/pm885cbKD7-4kok6UaFNQZzfUESMwyzf48IEUsgfYjsfpFf9-LEgqIjN4dm8kyTTAULqzUv1Fki9SKwJ0e4xF76VMBpFJ3pHPBt-slhm9gI8bejwrVavCgXD_Ht1U74T0atxIpyEbYtFXiTNaOhohM3I14xF59F_YAUlusjPAysS7aw9mHgQqGZBKrfmK24GGNGjQzy_EhENOtL126E9Tnu_mwhfBXJ66QXB81zejb_98mWV7JbOxHk0u-DugiabNJO6KKKsQoaHx6T3PKzyHThKCgadGhhybuqTjxdgkSzkEJ9vKY-bL-HYx0xgWmBjo1qgCoF5Bflu1j4Z8Xcwtw.jpg", alt: "Худі з міським принтом, варіант 1 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
+      { id: "printed-hoodie-2", name: "Худі з принтом міста №2", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/OXk7FBkMX1go3Dq8ip9Ri7wIwHrUqDtLFBmKQExJ1okRi-kW6RkVV1Y-i0VfLOuJZLHO0Y8J-_X0x_XUdYWUbR48VTrnpIv9blPyan748uPZBvXAI-ixouEVJmv-IwWTREWPw_Xx1CBc_kgkVC9J_sm6ZwknhbN6WRofRyBV-lsBXshx0PST09trlMxKijzwhIdhtQXoUQ-E1ESb_VoTLfDb-QFKZxonokmbdLSt-c-vE1_xDy76H4tsfKZP-wb_jc27M8Rcu56xGTGyaE1YELbQBaW3WSw7F14oFjuKKev3M5mA72eucg6XGRWMiiPshvHfzkfqa7XPqk5FWqPEvA.jpg", alt: "Худі з міським принтом, варіант 2 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
+      { id: "printed-hoodie-3", name: "Худі з принтом міста №3", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/H3TK6wFdkfRqf6nzXaKXeGSP3_kZs9gM17LWVCrqTvb7jHLIQlaJc9rXTS-kXpDs2fZz0_GVd_7T7Y1xmhDtkZDohpZU3QUCFCC8qoMitoBboIWSVah4BHW-NECxAygseKWNRh3F6Dpbwu3YBsbyrZKqgDymoe6y2uez7yZksDpk53gJ9Uh-k6DEa8-zrNwHw9Z2sYRaZgRz1jnaDQS5HsnZFJr8R5-odCCEm2OzrkQksiQLNGnK3UtBQ4xnstKBQ0oLKPhhAkxOlknh2rBNhuuwkjd15a16NukQtRPgDq-AEf-Cvvb_aGEKEN3sug5VXTAvPyU7yg9ui2RRA3ubrA.jpg", alt: "Худі з міським принтом, варіант 3 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
+      { id: "printed-hoodie-4", name: "Худі з принтом міста №4", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/lU8BxtE29xdT555VNFIgD8q1OOn3F1Z5ll4g34fdg2XQmjF2Auw37Tfre1rtAzZi_RudkfC8O_WJw644ocjK1zvszGz0gGk_dUbc128Zd94V9p3zkzHlJAsCNnP3GaVJZXwqB7LctaxrqLpvOrgYCFTK_Mf18aXhvDDsGlTGfaehGuaeLcC2EgS2WP6uwDlLdY_q42ragwHDlHx1sU-EagYwQBCYYc4ZZBxT6MhpfeSkDzO2xea_XNWNaMKOA65G5-lLwIxuLxkcyYPdRPoBx7qHVLI7OLH1RDpYK3n7Rd70CWYGd6Wr7Oa7Us4gMJKfRLR94gYqZ4wYoaMYIFBuEA.jpg", alt: "Худі з міським принтом, варіант 4 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
+      { id: "printed-hoodie-5", name: "Худі з принтом міста №5", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/EelNWNIR2rFgSqOk8DRJJ06MuNFMIXQLMlLnYHd6_mTrA1NZXFFo2j4ezlBuxBwEaoZwznypo1MF4ShbwMDIYp0tjDWj7SeDf9ORqKFawgYfl22pKywJEs_6IXZzWuJ1jEmUxoY8-VrjX3qVcqgv0zucKNL4RKrDJk0ksowGaz3TTGhA-dmoNepDMFIUqRI4z-chgygVb7HRv0nxmWYoE0CcoC8tn_-zaga8vwMxG4Oh82XNo2DoAV1tcaotohqIkhEtP8QIUtx90x-SDs7X_AA8dfB4RXV08CYVe5sQzl8SY90qHvm9mQj3hLB_IEOr1ztgIigGraN3vfgfej143w.jpg", alt: "Худі з міським принтом, варіант 5 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
+      { id: "printed-hoodie-6", name: "Худі з принтом міста №6", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/BXf_kO2qcaHe05YxU2NVH2J3jdw82Rbr5EHD-bTSMKhmgUCOaXLbMwNwXLIUgK1qOWCp9AaN2vxoE1uqHTw2joTzwxYLVHvo17CSNW_0LAzibEYpx44gjv0ambdl0Sf46wqk0pEEVoDyAPOtbRp-16XxSyiuwzWkkqqxB2RTYIyTkmoCc5tOzch44q7bM5r2YVWqy1HSoj5NbYNUtaymBEiH0pW5qvCazC1MWYmOMe4ThSU9cL_C5kzAlmWKxLXMMpAz73bTXp52-OPRr9ebRNjaxa3RLQK0cbsP5jS49dkyQJZ6MjS4lAUBKbCYE4yTEP0GioPSFtHR7HrbFwbR_A.jpg", alt: "Худі з міським принтом, варіант 6 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
+      { id: "printed-hoodie-7", name: "Худі з принтом міста №7", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/SKxzll3fNdLXk7L3LSbcQIalB3WvNUvLUKPV-2WM3UMoVcjlvGAIzW6SudBP1ucQw_AmXNCfVJaFnHLES9QYacdZiriyGUxkAucoSXZF-T9qu2CsEE8pL2gBE8Bniv-mTJ-1VpUcfRQIvpauhLxrtpqFihfAy3h6soOKURKHum8IcsFqouKb_afOvM_V0YSmgULCXdjbbPH34R-e52mZKUft0bH2mGN8i-DE1RIQt1eir-qX5SiSsv_RYwTF8gXpMvTlYKIu2RFA8LaBl6Rd5pmUgd-dqgBWWw398gjtwPP6DiVSsYwIdGQqiFbYotsHhb0NO1TCYvO-mDCxjTNNJQ.jpg", alt: "Худі з міським принтом, варіант 7 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
+      { id: "printed-hoodie-8", name: "Худі з принтом міста №8", category: "hoodie", tags: ["city"], label: "Худі · принт міста", price: 1350, sizes: ["XS", "S", "M", "L", "XL", "XXL"], badge: "", image: "https://cdn4.telesco.pe/file/EcH5J-1TLAqAbRTZB5dTX23iKKpkNhPY_e9Klaphm3gFhC-7AYhDtzNPQMLSP_B5Yf6K1CvrME8wXBmdxcybIRlc04novUGs0HcymANhSWDwZZnKkbk5r9CuGgbzGQfAVARfnR9dTOHFpr3FPhLeI7Pg36MrHfEGDySV-OPzQCxJh3O9snWWYiKe-B_TPu_ue53ZgQuyQBQ2M5CQ806UyDVNtNmFViokGWB9uXDx_gVj-Nv7WfN7ws8uEVz-UZ652gflIYoZvb0c1K1I0lUr8bLmG6EzPuYPrzC-l83w6PIu1GPomxNuqYX-PrcQ-E_2f-yB3EztqohNpxWCWOvzcA.jpg", alt: "Худі з міським принтом, варіант 8 з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1316" },
+      { id: "tee-print", name: "Футболка з принтом", category: "tee", tags: ["city"], label: "Футболка · принт", price: 800, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL", "XXXXXL"], badge: "", image: "https://cdn4.telesco.pe/file/Xbuqj3_lDbFqFvg70kWkg2Z2nkSBwq_UpXKUkVr6qcZ-oQ3uep9PAWFdUqiGnLx2rh4c1tB7zcjMR2fqUYRoCuhioapRtYZc5nqR505PrvFhRdYDXYAuzBvNqv3D1xZEFF1fJYLIHgM21Zma3eDDLuawPmNSGM-9IEpUYP5F4613QBdJomXSSMAmj2ZvPceLkxDpfayPuRXXpvhs55lQnMW_86N1r36q-mxLqkZxc_CA_WfbSplqrNjVlHf9LNoblmVdX0J8s1MZGjEKLTbj1RNKzA7SxJAgEpriDOatDNo3T__w9lj56UOkjOUzJGI3Rjb99I6srCibN7Eh-Lokxg.jpg", alt: "Фото футболки з принтом з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1274" },
+      { id: "city-hoodie", name: "Худі з твоїм містом", category: "hoodie", tags: ["city"], label: "Худі · індивідуальний міський принт", price: 1500, sizes: ["XS", "S", "M", "L", "XL", "XXL", "XXXL"], badge: "На замовлення", image: "https://cdn4.telesco.pe/file/DTyS0RQ1ikIamRCiFnnGj0vHNQjJs_fr7Ce-wfdOS7_jszXQ0OvuBIWsT9NoCKXvmLMfK6o5JAIF1iSGkPIsE7CYfXYBKl1dDwe2bvUFEIABBsfunSYb39Q4n4N74csDa4gw49rXFhOxoA0vovxmf-9s_AqdBVQu3ZBVoDMoDVwGlb1o-Kg4WQFSeKZ0MXaivN77zn2WGTqn10t9cPIYlLucelZx_12a9qWWQhRSVOLt0aHd-nWpeF_L6Mvb2pCml1Dieu70aHvHLfq6i6aNfUWZEwjMYwoq0O6RQ8QW17hDrSX9IS48JJbIh75vDEOlW3c_lUxIZjAoSbkCRO1QGQ.jpg", alt: "Фото худі з індивідуальним принтом міста з поста NORTH WEAR", source: "https://t.me/NORTHWEA/1307" }
     ];
 
     if (!Array.isArray(window.northwearArchive)) {
@@ -1230,8 +1690,13 @@
     const productCount = document.getElementById("catalog-count");
     const searchInput = document.getElementById("product-search");
     const cartDialog = document.getElementById("cart-dialog");
+    const checkoutDialog = document.getElementById("checkout-dialog");
+    const checkoutForm = document.getElementById("checkout-form");
+    const productDialog = document.getElementById("product-dialog");
+    const customizerDialog = document.getElementById("customizer-dialog");
     const cartItemsElement = document.getElementById("cart-items");
     const toast = document.getElementById("toast");
+    const backendConfigured = window.northwearBackend?.isConfigured === true;
     const formatPrice = (value) => new Intl.NumberFormat("uk-UA").format(value) + " грн";
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({
       "&": "&amp;",
@@ -1248,8 +1713,38 @@
         return "";
       }
     };
+    const heroProduct = products.find((product) => product.id === "channel-1299-1") || products.find((product) => product.category === "hoodie");
+    if (heroProduct) {
+      const heroImage = document.getElementById("hero-image");
+      heroImage.src = heroProduct.image;
+      heroImage.alt = heroProduct.alt || heroProduct.name;
+    }
+
+    const productImageFallbacks = {
+      hoodie: { label: "ХУДІ", shape: "M75 41 112 27 Q140 48 168 27 L205 41 245 82 214 104 198 88 198 250 82 250 82 88 66 104 35 82Z" },
+      tee: { label: "ФУТБОЛКА", shape: "M75 41 112 27 Q140 48 168 27 L205 41 245 82 214 104 198 88 198 250 82 250 82 88 66 104 35 82Z" },
+      pants: { label: "ШТАНИ", shape: "M87 36 H193 L205 250 H148 L140 127 132 250 H75Z" },
+      jacket: { label: "КУРТКА", shape: "M75 41 112 27 H168 L205 41 245 82 214 104 198 88 198 250 82 250 82 88 66 104 35 82Z" },
+      other: { label: "ОДЯГ", shape: "M75 41 112 27 Q140 48 168 27 L205 41 245 82 214 104 198 88 198 250 82 250 82 88 66 104 35 82Z" }
+    };
+
+    function productImageFallback(category) {
+      const item = productImageFallbacks[category] || productImageFallbacks.other;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 340"><rect width="280" height="340" fill="#202020"/><circle cx="236" cy="48" r="44" fill="#e31e24" opacity=".14"/><path d="${item.shape}" fill="#111" stroke="#646464" stroke-width="3" stroke-linejoin="round"/><path d="M112 30 Q140 51 168 30 M85 94v150 M195 94v150" fill="none" stroke="#484848" stroke-width="2"/><text x="140" y="304" fill="#f3f3f3" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="2">${item.label}</text><text x="140" y="326" fill="#e31e24" font-family="Arial,sans-serif" font-size="9" text-anchor="middle" letter-spacing="3">NORTH WEAR</text></svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    document.addEventListener("error", (event) => {
+      const image = event.target;
+      if (!(image instanceof HTMLImageElement) || !image.dataset.productCategory || image.dataset.usedFallback) return;
+      image.dataset.usedFallback = "true";
+      image.src = productImageFallback(image.dataset.productCategory);
+      image.alt = `Ілюстрація одягу: ${(productImageFallbacks[image.dataset.productCategory] || productImageFallbacks.other).label.toLocaleLowerCase("uk")}`;
+    }, true);
+
     let activeFilter = "all";
     let productLimit = 24;
+    const bestSellerCounts = new Map();
     let cart = JSON.parse(localStorage.getItem("northwear-cart") || "[]");
     const savedFavorites = JSON.parse(localStorage.getItem("northwear-favorites") || "[]");
     const favorites = new Set(Array.isArray(savedFavorites) ? savedFavorites.filter((id) => typeof id === "string") : []);
@@ -1261,31 +1756,38 @@
       if (resetLimit) productLimit = 24;
       const query = searchInput.value.trim().toLocaleLowerCase("uk");
       const visibleProducts = products.filter((product) => {
-        const matchesFilter = activeFilter === "all" || product.category === activeFilter || product.tags.includes(activeFilter);
+        const matchesFilter = activeFilter === "all"
+          || (activeFilter === "best-sellers" ? bestSellerCounts.has(product.id) : product.category === activeFilter || product.tags.includes(activeFilter));
         const matchesSearch = `${product.name} ${product.label} ${product.tags.join(" ")}`.toLocaleLowerCase("uk").includes(query);
         return matchesFilter && matchesSearch;
       });
+      if (activeFilter === "best-sellers") {
+        visibleProducts.sort((first, second) => bestSellerCounts.get(second.id) - bestSellerCounts.get(first.id));
+      }
       const displayedProducts = visibleProducts.slice(0, productLimit);
       productCount.textContent = `Показано ${displayedProducts.length} з ${visibleProducts.length} товарів`;
 
       if (visibleProducts.length === 0) {
-        productGrid.innerHTML = '<p class="empty-products">Нічого не знайдено. Спробуй змінити запит.</p>';
+        productGrid.innerHTML = activeFilter === "best-sellers" && bestSellerCounts.size === 0
+          ? '<p class="best-seller-empty">Хіти продажів з’являться тут після перших замовлень.</p>'
+          : '<p class="empty-products">Нічого не знайдено. Спробуй змінити запит.</p>';
         return;
       }
 
       productGrid.innerHTML = displayedProducts.map((product) => {
         const isFavorite = favorites.has(product.id);
+        const soldCount = bestSellerCounts.get(product.id);
         return `
         <article class="product-card" data-product-id="${escapeHtml(product.id)}">
-          <div class="product-image">
-            <img src="${safeHttpUrl(product.image)}" alt="${escapeHtml(product.alt)}" loading="lazy" referrerpolicy="no-referrer">
-            ${product.badge ? `<span class="product-badge">${escapeHtml(product.badge)}</span>` : ""}
+          <div class="product-image" data-open-product="${escapeHtml(product.id)}" role="button" tabindex="0" aria-label="Детальніше про ${escapeHtml(product.name)}">
+            <img src="${safeHttpUrl(product.image)}" data-product-category="${escapeHtml(product.category)}" alt="${escapeHtml(product.alt)}" loading="lazy" referrerpolicy="no-referrer">
+            ${soldCount ? `<span class="product-badge">Хіт продажів · ${soldCount} шт.</span>` : product.badge ? `<span class="product-badge">${escapeHtml(product.badge)}</span>` : ""}
             <button class="favorite-button" type="button" aria-label="${isFavorite ? "Видалити" : "Додати"} ${escapeHtml(product.name)} ${isFavorite ? "з" : "до"} обраного" aria-pressed="${isFavorite}">${isFavorite ? "♥" : "♡"}</button>
           </div>
           <div class="product-info">
             <p class="product-category">${escapeHtml(product.label)}</p>
             <div class="product-title-row">
-              <h3 class="product-title">${escapeHtml(product.name)}</h3>
+              <h3 class="product-title"><button class="product-title-button" type="button" data-open-product="${escapeHtml(product.id)}">${escapeHtml(product.name)}</button></h3>
               <span class="product-price">${product.price == null ? "Ціну уточнити" : formatPrice(product.price)}</span>
             </div>
             <div class="product-controls">
@@ -1293,7 +1795,7 @@
               ${(Array.isArray(product.sizes) ? product.sizes : []).map((size) => `<option value="${escapeHtml(size)}"${size === (product.sizes.includes("M") ? "M" : product.sizes[0]) ? " selected" : ""}>${escapeHtml(size)}</option>`).join("")}
               </select>
               ${product.price == null
-                ? `<a class="add-button" href="https://t.me/Manager_0603" target="_blank" rel="noopener noreferrer">Уточнити ціну</a>`
+                ? `<button class="add-button" type="button" disabled>Ціна уточнюється</button>`
                 : product.stock === 0
                   ? `<button class="add-button" type="button" disabled>Немає в наявності</button>`
                   : `<button class="add-button" type="button" data-add-to-cart="${escapeHtml(product.id)}">До кошика +</button>`}
@@ -1304,6 +1806,37 @@
       `; }).join("") + (visibleProducts.length > productLimit
         ? `<button class="load-more-button" type="button" data-load-more>Показати ще ${Math.min(24, visibleProducts.length - productLimit)} товарів</button>`
         : "");
+    }
+
+    function openProductDetails(productId) {
+      const product = products.find((entry) => entry.id === productId);
+      if (!product) return;
+
+      document.getElementById("detail-image").src = safeHttpUrl(product.image);
+      document.getElementById("detail-image").dataset.productCategory = product.category;
+      delete document.getElementById("detail-image").dataset.usedFallback;
+      document.getElementById("detail-image").alt = product.alt || product.name;
+      document.getElementById("detail-category").textContent = product.label || "";
+      document.getElementById("detail-title").textContent = product.name;
+      document.getElementById("detail-price").textContent = product.price == null ? "Ціну уточнити" : formatPrice(product.price);
+      document.getElementById("detail-availability").textContent = product.stock === 0
+        ? "Немає в наявності"
+        : product.stock == null ? "Наявність уточнить менеджер" : `В наявності: ${product.stock} шт.`;
+
+      const sizeSelect = document.getElementById("detail-size");
+      const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+      sizeSelect.innerHTML = sizes.length
+        ? sizes.map((size) => `<option value="${escapeHtml(size)}"${size === (sizes.includes("M") ? "M" : sizes[0]) ? " selected" : ""}>${escapeHtml(size)}</option>`).join("")
+        : '<option value="">Розмір уточнити</option>';
+      sizeSelect.disabled = sizes.length === 0;
+      document.getElementById("detail-color").value = "";
+      document.getElementById("detail-quantity").value = "1";
+
+      const addButton = document.getElementById("detail-add");
+      addButton.dataset.productId = product.id;
+      addButton.disabled = product.price == null || product.stock === 0 || sizes.length === 0;
+      addButton.textContent = product.stock === 0 ? "Немає в наявності" : product.price == null ? "Ціну уточнити" : "Додати до кошика";
+      productDialog.showModal();
     }
 
     function saveCart() {
@@ -1317,25 +1850,31 @@
       toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 2400);
     }
 
-    function addToCart(productId, size) {
-      const existing = cart.find((item) => item.id === productId && item.size === size);
+    function addToCart(productId, size, color = "", quantity = 1) {
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > maxItemQuantity) {
+        showToast(`Можна замовити від 1 до ${maxItemQuantity} одиниць.`);
+        return false;
+      }
+
+      const existing = cart.find((item) => item.id === productId && item.size === size && (item.color || "") === color);
       if (existing) {
-        if (existing.quantity >= maxItemQuantity) {
+        if (existing.quantity + quantity > maxItemQuantity) {
           showToast(`Можна замовити не більше ${maxItemQuantity} одиниць одного розміру.`);
-          return;
+          return false;
         }
-        existing.quantity += 1;
+        existing.quantity += quantity;
       } else {
         if (cart.length >= maxCartLines) {
           showToast(`В одному замовленні можна додати не більше ${maxCartLines} позицій.`);
-          return;
+          return false;
         }
-        cart.push({ id: productId, size, quantity: 1 });
+        cart.push({ id: productId, size, color, quantity });
       }
       saveCart();
       renderCart();
       const product = products.find((item) => item.id === productId);
       showToast(`${product.name} · розмір ${size} додано до кошика`);
+      return true;
     }
 
     function renderCart() {
@@ -1350,7 +1889,7 @@
         ? `${itemCount} ${itemCount === 1 ? "товар" : itemCount < 5 ? "товари" : "товарів"} у кошику`
         : "Додай товари, які сподобались.";
       document.getElementById("cart-total").textContent = formatPrice(total);
-      document.getElementById("checkout-button").disabled = itemCount === 0;
+      document.getElementById("checkout-button").disabled = itemCount === 0 || !backendConfigured;
 
       if (cart.length === 0) {
         cartItemsElement.innerHTML = '<p class="cart-empty">Кошик поки порожній.<br>Обери щось у каталозі.</p>';
@@ -1360,10 +1899,10 @@
           if (!product) return "";
           return `
             <article class="cart-line">
-              <img src="${safeHttpUrl(product.image)}" alt="">
+              <img src="${safeHttpUrl(product.image)}" data-product-category="${escapeHtml(product.category)}" alt="">
               <div>
                 <h3>${escapeHtml(product.name)}</h3>
-                <p>Розмір ${escapeHtml(item.size)} · ${formatPrice(product.price)}</p>
+                <p>Розмір ${escapeHtml(item.size)}${item.color ? ` · ${escapeHtml(item.color)}` : ""} · ${formatPrice(product.price)}</p>
                 <div class="quantity-control" aria-label="Кількість товару">
                   <button type="button" data-cart-action="decrease" data-cart-index="${index}" aria-label="Зменшити кількість">−</button>
                   <span>${item.quantity}</span>
@@ -1425,11 +1964,180 @@
         return;
       }
 
+      const productDetails = event.target.closest("[data-open-product]");
+      if (productDetails) {
+        openProductDetails(productDetails.dataset.openProduct);
+        return;
+      }
+
       const addButton = event.target.closest("[data-add-to-cart]");
       if (!addButton) return;
       const card = addButton.closest(".product-card");
       const size = card.querySelector(".size-select").value;
       addToCart(addButton.dataset.addToCart, size);
+    });
+
+    productGrid.addEventListener("keydown", (event) => {
+      if ((event.key === "Enter" || event.key === " ") && event.target.matches("[data-open-product]")) {
+        event.preventDefault();
+        openProductDetails(event.target.dataset.openProduct);
+      }
+    });
+
+    document.getElementById("detail-add").addEventListener("click", (event) => {
+      const size = document.getElementById("detail-size").value;
+      const color = document.getElementById("detail-color").value;
+      const quantity = Number(document.getElementById("detail-quantity").value);
+      if (addToCart(event.currentTarget.dataset.productId, size, color, quantity)) productDialog.close();
+    });
+
+    document.querySelectorAll("[data-detail-quantity]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const quantityInput = document.getElementById("detail-quantity");
+        quantityInput.value = String(Math.max(1, Math.min(maxItemQuantity, Number(quantityInput.value) + Number(button.dataset.detailQuantity))));
+      });
+    });
+
+    document.querySelectorAll("[data-open-customizer]").forEach((button) => {
+      button.addEventListener("click", () => customizerDialog.showModal());
+    });
+
+    let customImageUrl = "";
+    const previewPrint = document.getElementById("preview-print");
+    const customImageInput = document.getElementById("custom-image");
+    const customError = document.getElementById("custom-error");
+    const customImageName = document.getElementById("custom-image-name");
+    document.getElementById("custom-setup-note").hidden = backendConfigured;
+    document.getElementById("checkout-setup-note").hidden = backendConfigured;
+    document.getElementById("submit-custom-request").disabled = !backendConfigured;
+    const customGarmentShapes = {
+      tee: {
+        shape: "M75 41 112 27 Q140 48 168 27 L205 41 245 82 214 104 198 88 198 250 82 250 82 88 66 104 35 82Z",
+        detail: "M112 29 Q140 53 168 29 M84 92v154 M196 92v154",
+        label: "футболка"
+      },
+      hoodie: {
+        shape: "M75 48 109 34 119 48 Q140 61 161 48 L171 34 205 48 245 88 215 113 198 98 198 250 82 250 82 98 65 113 35 88Z",
+        detail: "M112 37 Q112 3 140 5 Q168 3 168 37 M112 37 Q140 55 168 37 M93 105v140 M187 105v140 M132 59v24 M148 59v24",
+        label: "худі"
+      },
+      sweatshirt: {
+        shape: "M75 43 112 28 Q140 48 168 28 L205 43 237 78 214 103 198 90 198 236 82 236 82 90 66 103 43 78Z",
+        detail: "M112 30 Q140 52 168 30 M85 91v141 M195 91v141 M83 222 Q140 235 197 222",
+        label: "світшот"
+      }
+    };
+
+    function updateCustomPreview() {
+      const selectedGarment = document.getElementById("custom-product").value;
+      const selectedShape = customGarmentShapes[selectedGarment];
+      const garmentColor = document.getElementById("custom-color").value;
+      const previewShirt = document.getElementById("preview-shirt");
+      const garmentShape = document.getElementById("garment-shape");
+      const garmentDetail = document.getElementById("garment-detail");
+      const garmentSvg = document.getElementById("preview-garment");
+      garmentShape.setAttribute("d", selectedShape.shape);
+      garmentShape.setAttribute("fill", garmentColor);
+      garmentDetail.setAttribute("d", selectedShape.detail);
+      garmentSvg.setAttribute("aria-label", `${selectedShape.label}, ${document.getElementById("custom-color").selectedOptions[0].textContent.toLocaleLowerCase("uk")}`);
+      previewShirt.dataset.printSize = document.getElementById("custom-placement").value === "a6" ? "a6" : "a4";
+      previewShirt.dataset.placement = document.getElementById("custom-placement").value;
+      previewPrint.style.color = ["#f5f5f5"].includes(garmentColor) ? "#c71920" : "#ff4449";
+      previewPrint.replaceChildren();
+      const printText = document.getElementById("custom-text").value.trim();
+      if (printText) previewPrint.append(document.createTextNode(printText));
+      if (customImageUrl) {
+        const image = document.createElement("img");
+        image.src = customImageUrl;
+        image.alt = "Завантажений принт";
+        previewPrint.append(image);
+      }
+      if (!printText && !customImageUrl) previewPrint.textContent = "Твій принт";
+    }
+
+    document.getElementById("custom-color").addEventListener("change", updateCustomPreview);
+    document.getElementById("custom-product").addEventListener("change", updateCustomPreview);
+    document.getElementById("custom-placement").addEventListener("change", updateCustomPreview);
+    document.getElementById("custom-text").addEventListener("input", updateCustomPreview);
+    customImageInput.addEventListener("change", () => {
+      const file = customImageInput.files[0];
+      customError.textContent = "";
+      if (customImageUrl) URL.revokeObjectURL(customImageUrl);
+      customImageUrl = "";
+      if (file) {
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 8000000) {
+          customError.textContent = "Оберіть JPG, PNG або WebP розміром до 8 МБ.";
+          customImageName.textContent = "JPG, PNG або WebP, до 8 МБ.";
+          customImageInput.value = "";
+          updateCustomPreview();
+          return;
+        }
+        customImageUrl = URL.createObjectURL(file);
+        customImageName.textContent = file.name;
+      } else {
+        customImageName.textContent = "JPG, PNG або WebP, до 8 МБ.";
+      }
+      updateCustomPreview();
+    });
+
+    updateCustomPreview();
+
+    document.querySelectorAll("[data-custom-quantity]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const quantityInput = document.getElementById("custom-quantity");
+        quantityInput.value = String(Math.max(1, Math.min(maxItemQuantity, Number(quantityInput.value) + Number(button.dataset.customQuantity))));
+      });
+    });
+
+    document.getElementById("open-customizer").addEventListener("click", () => customizerDialog.showModal());
+
+    document.getElementById("custom-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!backendConfigured) {
+        customError.textContent = "Онлайн-заявки ще не налаштовані. Спочатку потрібно підключити Supabase.";
+        return;
+      }
+      const text = document.getElementById("custom-text").value.trim();
+      const image = customImageInput.files[0];
+      const quantity = Number(document.getElementById("custom-quantity").value);
+      const submitButton = document.getElementById("submit-custom-request");
+      if (!text && !image) {
+        customError.textContent = "Додай текст або зображення для принта.";
+        return;
+      }
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > maxItemQuantity) {
+        customError.textContent = `Кількість має бути від 1 до ${maxItemQuantity}.`;
+        return;
+      }
+
+      const colorSelect = document.getElementById("custom-color");
+      const backend = window.northwearBackend;
+      if (!backend.isConfigured) {
+        customError.textContent = "Онлайн-заявки тимчасово недоступні. Спробуй пізніше.";
+        return;
+      }
+
+      customError.textContent = "";
+      submitButton.disabled = true;
+      try {
+        const request = await backend.createCustomRequest({
+          customer_name: document.getElementById("custom-name").value.trim(),
+          customer_phone: document.getElementById("custom-phone").value.trim(),
+          garment: document.getElementById("custom-product").value,
+          garment_color: colorSelect.options[colorSelect.selectedIndex].text,
+          size: document.getElementById("custom-size").value,
+          placement: document.getElementById("custom-placement").value,
+          print_text: text,
+          quantity
+        }, image);
+        customizerDialog.close();
+        showToast(`Заявку №${request.id.slice(0, 8).toUpperCase()} передано працівникам.`);
+      } catch (error) {
+        console.error("Не вдалося надіслати заявку на індивідуальний принт.", error);
+        customError.textContent = "Не вдалося надіслати заявку. Перевір з’єднання та спробуй ще раз.";
+      } finally {
+        submitButton.disabled = false;
+      }
     });
 
     document.getElementById("open-cart").addEventListener("click", () => cartDialog.showModal());
@@ -1440,6 +2148,12 @@
 
     cartDialog.addEventListener("click", (event) => {
       if (event.target === cartDialog) cartDialog.close();
+    });
+
+    [productDialog, customizerDialog, checkoutDialog].forEach((dialog) => {
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
     });
 
     cartItemsElement.addEventListener("click", (event) => {
@@ -1456,73 +2170,68 @@
       renderCart();
     });
 
-    document.getElementById("checkout-button").addEventListener("click", async () => {
-      if (cart.length === 0) return;
-      let orderLines = cart.map((item) => {
-        const product = products.find((entry) => entry.id === item.id);
-        return product ? `${product.name} — ${item.size} × ${item.quantity} = ${formatPrice(product.price * item.quantity)}` : "";
-      }).filter(Boolean);
-      let total = cart.reduce((sum, item) => {
-        const product = products.find((entry) => entry.id === item.id);
-        return sum + (product ? product.price * item.quantity : 0);
-      }, 0);
+    document.getElementById("checkout-button").addEventListener("click", () => {
+      if (cart.length === 0 || !backendConfigured) return;
+      document.getElementById("checkout-error").textContent = "";
+      cartDialog.close();
+      checkoutDialog.showModal();
+    });
+
+    checkoutForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (cart.length === 0 || !checkoutForm.reportValidity()) return;
+
+      const errorElement = document.getElementById("checkout-error");
+      const confirmButton = document.getElementById("confirm-order");
+      const customer = {
+        name: checkoutForm.elements.name.value.trim(),
+        phone: checkoutForm.elements.phone.value.trim(),
+        city: checkoutForm.elements.city.value.trim(),
+        delivery_method: "nova_poshta_branch",
+        delivery_address: checkoutForm.elements.delivery_address.value.trim()
+      };
+      errorElement.textContent = "";
+      confirmButton.disabled = true;
       const backend = window.northwearBackend;
-      let orderReference = "";
-      const telegramWindow = backend.isConfigured ? window.open("about:blank", "_blank") : null;
+      if (!backend.isConfigured) {
+        errorElement.textContent = "Онлайн-замовлення тимчасово недоступні. Спробуй пізніше.";
+        confirmButton.disabled = false;
+        return;
+      }
 
-      if (backend.isConfigured) {
-        const checkoutButton = document.getElementById("checkout-button");
-        checkoutButton.disabled = true;
-        try {
-          const order = await backend.placeOrder(cart.map((item) => ({
-            id: item.id,
-            size: item.size,
-            quantity: item.quantity
-          })));
-          if (typeof order?.id !== "string" || !Number.isFinite(Number(order.total_amount)) || !Array.isArray(order.items) || order.items.length === 0) {
-            throw new Error("Сервер повернув некоректний номер замовлення або суму.");
-          }
-          total = Number(order.total_amount);
-          orderLines = order.items.map((item) =>
-            `${item.product_name} — ${item.size} × ${item.quantity} = ${formatPrice(item.unit_price * item.quantity)}`
-          );
-          orderReference = `\nНомер замовлення: ${order.id.slice(0, 8).toUpperCase()}`;
-        } catch (error) {
-          console.error("Не вдалося зберегти замовлення в онлайн-кабінеті.", error);
-          telegramWindow?.close();
-          showToast("Не вдалося зберегти замовлення. Спробуй ще раз або напиши менеджеру.");
-          checkoutButton.disabled = false;
-          return;
+      try {
+        const order = await backend.placeOrder(cart.map((item) => ({
+          id: item.id,
+          size: item.size,
+          color: item.color || "",
+          quantity: item.quantity
+        })), customer);
+        if (typeof order?.id !== "string" || !Number.isFinite(Number(order.total_amount)) || !Array.isArray(order.items) || order.items.length === 0) {
+          throw new Error("Сервер повернув некоректний номер замовлення або суму.");
         }
-      }
-
-      const referenceLine = orderReference ? `${orderReference}\n` : "";
-      const message = `Вітаю! Хочу замовити:\n${orderLines.join("\n")}\nРазом: ${formatPrice(total)}${referenceLine}Підкажіть, будь ласка, щодо наявності та доставки.`;
-      if (telegramWindow) {
-        telegramWindow.opener = null;
-        telegramWindow.location.replace(`https://t.me/Manager_0603?text=${encodeURIComponent(message)}`);
-      } else if (orderReference) {
-        showToast(`Замовлення ${orderReference.trim()} збережено. Менеджеру вже доступна заявка.`);
-      } else {
-        window.open(`https://t.me/Manager_0603?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
-      }
-
-      if (backend.isConfigured) {
         cart.splice(0, cart.length);
         saveCart();
         renderCart();
+        checkoutForm.reset();
+        checkoutDialog.close();
+        showToast(`Замовлення №${order.id.slice(0, 8).toUpperCase()} передано працівникам.`);
+      } catch (error) {
+        console.error("Не вдалося зберегти замовлення в онлайн-кабінеті.", error);
+        errorElement.textContent = "Не вдалося зберегти замовлення. Перевір з’єднання та спробуй ще раз.";
+      } finally {
+        confirmButton.disabled = false;
       }
     });
 
     const themeToggle = document.getElementById("theme-toggle");
     const savedTheme = localStorage.getItem("northwear-theme");
-    document.documentElement.dataset.theme = savedTheme === "dark" ? "dark" : "light";
+    document.documentElement.dataset.theme = savedTheme === "light" ? "light" : "dark";
 
     function updateThemeButton() {
       const isDark = document.documentElement.dataset.theme === "dark";
       themeToggle.textContent = isDark ? "☼" : "☾";
       themeToggle.setAttribute("aria-label", isDark ? "Увімкнути світлу тему" : "Увімкнути темну тему");
-      document.querySelector('meta[name="theme-color"]').content = isDark ? "#171916" : "#f5f4f0";
+      document.querySelector('meta[name="theme-color"]').content = isDark ? "#090909" : "#f5f4f0";
     }
 
     themeToggle.addEventListener("click", () => {
@@ -1538,6 +2247,22 @@
     renderCart();
 
     if (window.northwearBackend?.isConfigured) {
+      window.northwearBackend.loadPopularProducts()
+        .then((popularProducts) => {
+          bestSellerCounts.clear();
+          popularProducts.forEach((product) => {
+            const unitsSold = Number(product.units_sold);
+            if (typeof product.product_id === "string" && Number.isFinite(unitsSold) && unitsSold > 0) {
+              bestSellerCounts.set(product.product_id, unitsSold);
+            }
+          });
+          renderProducts();
+        })
+        .catch((error) => {
+          console.error("Не вдалося завантажити хіти продажів NORTH WEAR.", error);
+          showToast("Не вдалося оновити хіти продажів. Перевір налаштування магазину.");
+        });
+
       window.northwearBackend.loadProducts()
         .then((onlineProducts) => {
           products.splice(0, products.length, ...onlineProducts);

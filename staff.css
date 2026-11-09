@@ -151,6 +151,8 @@ td { padding: 12px 10px; border-bottom: 1px solid var(--line); font-size: 12px; 
 .order-heading h3 { margin: 0 0 5px; font-size: 14px; }
 .order-date { margin: 0; color: var(--muted); font-size: 11px; }
 .order-status { min-width: 150px; }
+.custom-design-link { color: #617d28; font-size: 12px; font-weight: 700; text-decoration: none; }
+.custom-design-link:hover { text-decoration: underline; }
 .order-items { display: grid; gap: 7px; margin: 15px 0 0; padding: 13px 0 0; border-top: 1px solid var(--line); list-style: none; }
 .order-items li { display: flex; justify-content: space-between; gap: 16px; font-size: 12px; }
 .order-items li span:last-child { color: var(--muted); white-space: nowrap; }

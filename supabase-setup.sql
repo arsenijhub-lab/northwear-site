@@ -35,8 +35,41 @@ CREATE TABLE IF NOT EXISTS public.orders (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   status text NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'processing', 'completed', 'cancelled')),
   total_amount numeric(12, 2) NOT NULL DEFAULT 0 CHECK (total_amount >= 0),
+  customer_name text NOT NULL DEFAULT '',
+  customer_phone text NOT NULL DEFAULT '',
+  delivery_city text NOT NULL DEFAULT '',
+  delivery_method text NOT NULL DEFAULT 'nova_poshta_branch' CHECK (delivery_method = 'nova_poshta_branch'),
+  delivery_address text NOT NULL DEFAULT '',
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_name text NOT NULL DEFAULT '';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_phone text NOT NULL DEFAULT '';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS delivery_city text NOT NULL DEFAULT '';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS delivery_method text NOT NULL DEFAULT 'nova_poshta_branch'
+  CHECK (delivery_method = 'nova_poshta_branch');
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS delivery_address text NOT NULL DEFAULT '';
+
+CREATE TABLE IF NOT EXISTS public.custom_requests (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  status text NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'processing', 'completed', 'cancelled')),
+  customer_name text NOT NULL CHECK (char_length(customer_name) BETWEEN 2 AND 100),
+  customer_phone text NOT NULL CHECK (
+    customer_phone ~ '^\+?[0-9 ()-]{9,19}$'
+    AND length(regexp_replace(customer_phone, '[^0-9]', '', 'g')) BETWEEN 10 AND 13
+  ),
+  garment text NOT NULL CHECK (garment IN ('tee', 'hoodie', 'sweatshirt')),
+  garment_color text NOT NULL CHECK (garment_color IN ('Чорний', 'Білий', 'Червоний', 'Сірий')),
+  size text NOT NULL CHECK (size IN ('XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL')),
+  placement text NOT NULL CHECK (placement IN ('a6', 'front', 'back')),
+  print_text text NOT NULL DEFAULT '' CHECK (char_length(print_text) <= 80),
+  quantity integer NOT NULL CHECK (quantity BETWEEN 1 AND 99),
+  image_path text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  CHECK (image_path IS NULL OR image_path ~* ('^' || id::text || '/design\.(jpg|png|webp)$')),
+  CHECK (char_length(print_text) > 0 OR image_path IS NOT NULL)
 );
 
 CREATE TABLE IF NOT EXISTS public.order_items (
@@ -45,13 +78,18 @@ CREATE TABLE IF NOT EXISTS public.order_items (
   product_id text NOT NULL,
   product_name text NOT NULL,
   size text NOT NULL,
+  color text NOT NULL DEFAULT '',
   quantity integer NOT NULL CHECK (quantity BETWEEN 1 AND 99),
   unit_price numeric(12, 2) NOT NULL CHECK (unit_price >= 0)
 );
 
+ALTER TABLE public.order_items ADD COLUMN IF NOT EXISTS color text NOT NULL DEFAULT '';
+
 CREATE INDEX IF NOT EXISTS orders_created_at_idx ON public.orders (created_at DESC);
 CREATE INDEX IF NOT EXISTS orders_status_idx ON public.orders (status);
 CREATE INDEX IF NOT EXISTS order_items_order_id_idx ON public.order_items (order_id);
+CREATE INDEX IF NOT EXISTS order_items_product_id_idx ON public.order_items (product_id);
+CREATE INDEX IF NOT EXISTS custom_requests_created_at_idx ON public.custom_requests (created_at DESC);
 
 CREATE OR REPLACE FUNCTION public.current_staff_role()
 RETURNS text
@@ -109,7 +147,8 @@ CREATE TRIGGER northwear_staff_signup
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.on_staff_signup();
 
-CREATE OR REPLACE FUNCTION public.place_order(p_items jsonb)
+DROP FUNCTION IF EXISTS public.place_order(jsonb);
+CREATE OR REPLACE FUNCTION public.place_order(p_items jsonb, p_customer jsonb)
 RETURNS jsonb
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -120,19 +159,61 @@ DECLARE
   cart_item jsonb;
   item_product public.products%ROWTYPE;
   item_size text;
+  item_color text;
   item_quantity integer;
   order_total numeric(12, 2) := 0;
   line_items jsonb := '[]'::jsonb;
+  customer_name_value text;
+  customer_phone_value text;
+  delivery_city_value text;
+  delivery_method_value text;
+  delivery_address_value text;
 BEGIN
   IF p_items IS NULL OR jsonb_typeof(p_items) IS DISTINCT FROM 'array' THEN
     RAISE EXCEPTION 'The order items must be a JSON array.';
+  END IF;
+
+  IF p_customer IS NULL OR jsonb_typeof(p_customer) IS DISTINCT FROM 'object' THEN
+    RAISE EXCEPTION 'Customer and delivery details are required.';
+  END IF;
+
+  customer_name_value := coalesce(btrim(p_customer->>'name'), '');
+  customer_phone_value := coalesce(btrim(p_customer->>'phone'), '');
+  delivery_city_value := coalesce(btrim(p_customer->>'city'), '');
+  delivery_method_value := p_customer->>'delivery_method';
+  delivery_address_value := coalesce(btrim(p_customer->>'delivery_address'), '');
+
+  IF length(customer_name_value) NOT BETWEEN 2 AND 100 THEN
+    RAISE EXCEPTION 'Customer name must be between 2 and 100 characters.';
+  END IF;
+
+  IF customer_phone_value !~ '^\+?[0-9 ()-]{9,19}$'
+     OR length(regexp_replace(customer_phone_value, '[^0-9]', '', 'g')) NOT BETWEEN 10 AND 13 THEN
+    RAISE EXCEPTION 'Enter a valid contact phone number.';
+  END IF;
+
+  IF length(delivery_city_value) NOT BETWEEN 2 AND 80 THEN
+    RAISE EXCEPTION 'Delivery city must be between 2 and 80 characters.';
+  END IF;
+
+  IF delivery_method_value IS DISTINCT FROM 'nova_poshta_branch' THEN
+    RAISE EXCEPTION 'The selected delivery method is not supported.';
+  END IF;
+
+  IF length(delivery_address_value) NOT BETWEEN 2 AND 120 THEN
+    RAISE EXCEPTION 'Nova Poshta branch or locker is required.';
   END IF;
 
   IF jsonb_array_length(p_items) < 1 OR jsonb_array_length(p_items) > 25 THEN
     RAISE EXCEPTION 'The order must contain between 1 and 25 items.';
   END IF;
 
-  INSERT INTO public.orders DEFAULT VALUES
+  INSERT INTO public.orders (
+    customer_name, customer_phone, delivery_city, delivery_method, delivery_address
+  )
+  VALUES (
+    customer_name_value, customer_phone_value, delivery_city_value, delivery_method_value, delivery_address_value
+  )
   RETURNING id INTO created_order_id;
 
   FOR cart_item IN SELECT value FROM jsonb_array_elements(p_items)
@@ -143,6 +224,11 @@ BEGIN
 
     item_quantity := (cart_item->>'quantity')::integer;
     item_size := cart_item->>'size';
+    item_color := coalesce(cart_item->>'color', '');
+
+    IF length(item_color) > 40 THEN
+      RAISE EXCEPTION 'The selected color is too long.';
+    END IF;
 
     SELECT * INTO item_product
     FROM public.products
@@ -172,12 +258,13 @@ BEGIN
       RAISE EXCEPTION 'The order cannot contain more than 99 units of one product size.';
     END IF;
 
-    INSERT INTO public.order_items (order_id, product_id, product_name, size, quantity, unit_price)
-    VALUES (created_order_id, item_product.id, item_product.name, item_size, item_quantity, item_product.price);
+    INSERT INTO public.order_items (order_id, product_id, product_name, size, color, quantity, unit_price)
+    VALUES (created_order_id, item_product.id, item_product.name, item_size, item_color, item_quantity, item_product.price);
 
     line_items := line_items || jsonb_build_array(jsonb_build_object(
       'product_name', item_product.name,
       'size', item_size,
+      'color', item_color,
       'quantity', item_quantity,
       'unit_price', item_product.price
     ));
@@ -204,11 +291,92 @@ BEGIN
 END
 $$;
 
+CREATE OR REPLACE FUNCTION public.sync_order_stock()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  item record;
+  current_stock integer;
+BEGIN
+  IF OLD.status = NEW.status THEN
+    RETURN NEW;
+  END IF;
+
+  IF OLD.status <> 'cancelled' AND NEW.status = 'cancelled' THEN
+    FOR item IN
+      SELECT product_id, sum(quantity)::integer AS quantity
+      FROM public.order_items
+      WHERE order_id = NEW.id
+      GROUP BY product_id
+      ORDER BY product_id
+    LOOP
+      UPDATE public.products
+      SET stock = stock + item.quantity,
+          updated_at = now()
+      WHERE id = item.product_id
+        AND stock IS NOT NULL;
+    END LOOP;
+  ELSIF OLD.status = 'cancelled' AND NEW.status <> 'cancelled' THEN
+    FOR item IN
+      SELECT product_id, sum(quantity)::integer AS quantity
+      FROM public.order_items
+      WHERE order_id = NEW.id
+      GROUP BY product_id
+      ORDER BY product_id
+    LOOP
+      SELECT stock INTO current_stock
+      FROM public.products
+      WHERE id = item.product_id
+      FOR UPDATE;
+
+      IF FOUND AND current_stock IS NOT NULL THEN
+        IF current_stock < item.quantity THEN
+          RAISE EXCEPTION 'Insufficient stock to reactivate cancelled order.'
+            USING ERRCODE = '23514';
+        END IF;
+
+        UPDATE public.products
+        SET stock = stock - item.quantity,
+            updated_at = now()
+        WHERE id = item.product_id;
+      END IF;
+    END LOOP;
+  END IF;
+
+  RETURN NEW;
+END
+$$;
+
+DROP TRIGGER IF EXISTS northwear_order_stock_sync ON public.orders;
+CREATE TRIGGER northwear_order_stock_sync
+  AFTER UPDATE OF status ON public.orders
+  FOR EACH ROW EXECUTE FUNCTION public.sync_order_stock();
+
+CREATE OR REPLACE FUNCTION public.popular_products()
+RETURNS TABLE(product_id text, units_sold bigint)
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+  SELECT item.product_id, sum(item.quantity)::bigint AS units_sold
+  FROM public.order_items AS item
+  JOIN public.orders AS customer_order ON customer_order.id = item.order_id
+  WHERE customer_order.status <> 'cancelled'
+  GROUP BY item.product_id
+  ORDER BY units_sold DESC, item.product_id
+  LIMIT 6
+$$;
+
 ALTER TABLE public.staff_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.staff_invites ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.order_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.custom_requests ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "staff can read active catalog" ON public.products;
 CREATE POLICY "staff can read active catalog"
@@ -230,6 +398,22 @@ DROP POLICY IF EXISTS "staff can read orders" ON public.orders;
 CREATE POLICY "staff can read orders"
   ON public.orders FOR SELECT TO authenticated
   USING (public.is_northwear_staff());
+
+DROP POLICY IF EXISTS "anyone can submit custom requests" ON public.custom_requests;
+CREATE POLICY "anyone can submit custom requests"
+  ON public.custom_requests FOR INSERT TO anon, authenticated
+  WITH CHECK (status = 'new');
+
+DROP POLICY IF EXISTS "staff can read custom requests" ON public.custom_requests;
+CREATE POLICY "staff can read custom requests"
+  ON public.custom_requests FOR SELECT TO authenticated
+  USING (public.is_northwear_staff());
+
+DROP POLICY IF EXISTS "staff can update custom requests" ON public.custom_requests;
+CREATE POLICY "staff can update custom requests"
+  ON public.custom_requests FOR UPDATE TO authenticated
+  USING (public.is_northwear_staff())
+  WITH CHECK (public.is_northwear_staff());
 
 DROP POLICY IF EXISTS "staff can update orders" ON public.orders;
 CREATE POLICY "staff can update orders"
@@ -266,13 +450,19 @@ GRANT SELECT ON public.products TO anon, authenticated;
 GRANT INSERT, UPDATE ON public.products TO authenticated;
 GRANT SELECT ON public.orders TO authenticated;
 GRANT UPDATE (status, updated_at) ON public.orders TO authenticated;
+GRANT INSERT ON public.custom_requests TO anon, authenticated;
+GRANT SELECT ON public.custom_requests TO authenticated;
+GRANT UPDATE (status, updated_at) ON public.custom_requests TO authenticated;
 GRANT SELECT ON public.order_items, public.staff_members TO authenticated;
 GRANT SELECT, INSERT, DELETE ON public.staff_invites TO authenticated;
 GRANT EXECUTE ON FUNCTION public.current_staff_role() TO authenticated;
 GRANT EXECUTE ON FUNCTION public.is_northwear_staff() TO anon, authenticated;
 REVOKE ALL ON FUNCTION public.on_staff_signup() FROM PUBLIC, anon, authenticated;
-REVOKE ALL ON FUNCTION public.place_order(jsonb) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.place_order(jsonb) TO anon, authenticated;
+REVOKE ALL ON FUNCTION public.place_order(jsonb, jsonb) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.place_order(jsonb, jsonb) TO anon, authenticated;
+REVOKE ALL ON FUNCTION public.sync_order_stock() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.popular_products() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.popular_products() TO anon, authenticated;
 
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES ('product-images', 'product-images', true, 8000000, ARRAY['image/jpeg', 'image/png', 'image/webp'])
@@ -280,6 +470,26 @@ ON CONFLICT (id) DO UPDATE
 SET public = EXCLUDED.public,
     file_size_limit = EXCLUDED.file_size_limit,
     allowed_mime_types = EXCLUDED.allowed_mime_types;
+
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES ('custom-designs', 'custom-designs', false, 8000000, ARRAY['image/jpeg', 'image/png', 'image/webp'])
+ON CONFLICT (id) DO UPDATE
+SET public = EXCLUDED.public,
+    file_size_limit = EXCLUDED.file_size_limit,
+    allowed_mime_types = EXCLUDED.allowed_mime_types;
+
+DROP POLICY IF EXISTS "customers can upload custom designs" ON storage.objects;
+CREATE POLICY "customers can upload custom designs"
+  ON storage.objects FOR INSERT TO anon, authenticated
+  WITH CHECK (
+    bucket_id = 'custom-designs'
+    AND name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/design\.(jpg|png|webp)$'
+  );
+
+DROP POLICY IF EXISTS "staff can view custom designs" ON storage.objects;
+CREATE POLICY "staff can view custom designs"
+  ON storage.objects FOR SELECT TO authenticated
+  USING (bucket_id = 'custom-designs' AND public.is_northwear_staff());
 
 DROP POLICY IF EXISTS "anyone can view product images" ON storage.objects;
 CREATE POLICY "anyone can view product images"
