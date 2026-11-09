@@ -122,7 +122,7 @@ window.northwearArchive = [
       "XXL"
     ],
     "badge": "Пост #1285",
-    "image": "https://cdn4.telesco.pe/file/exM2Q2coX2tKy8BTY58USh3bP6_tpZdr-wCORjKy4azJm_U0a0Ad3J3WiUOMwbl4AJwBX6CZn2Mrc0qLV5Y7Vs7hsptI-z2yW120QozgA1xI2DVTm6nIiQYvXA-CRUO_h3hqfH5qGNm0Nm2FN7GWQeoATCRtzaTcc7OC7LLxB2pxRWYbiUkFuL3bqC6FF6AtFXpU2UtP6CyypYBjgGb5gewjgl_qMjewPkOztCSfnv1rOnxiKDCHWWs4MJRjdmpvCTf8q4777aet1NMeo0s8qctJOiAfLpoQiEwfhwYUUxj0_z2LuIzzb6_kca-RQsZSN7OS_2Kgy2T_f5e2nWEZlg.jpg",
+    "image": "assets/channel-1285-1.jpg",
     "alt": "Футболка Міський принт (фото 1) / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/1285"
   },
@@ -467,7 +467,7 @@ window.northwearArchive = [
       "XXXXL"
     ],
     "badge": "Пост #1255",
-    "image": "https://cdn4.telesco.pe/file/ojl2VrN3jbrMT-VP0ANIzv-OKa2_6nc6_ZNsk9v-eC_uLMWh48r9WpEovJclHc0m0bw3UelcUUJmUgkOCFE_M6lEm4orPcNt4c6aKfDwqO9FuBn9OQLmM6emIakugh7JWrq4KPssXOZiRYGCmtPhkvzdsWEf-gSTVjGJqJ8fs6RHocLNwh_lfZn2NEK47KXSvl-2F9T0hurr_Tfzolo2d_pcZtg1UHyiZcjyweIVAJFKxmElx9B9kUTXeoiJWoKnHENafOfZTPnGH7xonTEnzK4OG8QUwhI1grbZPHdYDN495hbZJeQAZ9ckJ3Wn9C2DuDgqPQjKoUxfgwqC6iO0Cw.jpg",
+    "image": "assets/channel-1255-2.jpg",
     "alt": "Худі New Balance (фото 2) / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/1255"
   },
