@@ -21,11 +21,11 @@
     cancelled: "Скасоване"
   };
   const categoryThumbs = {
-    hoodie: 'assets/look-street.jpg',
-    tee: 'assets/tee-classic.jpg',
-    pants: 'assets/jeans.jpg',
-    jacket: 'assets/jacket.jpg',
-    other: 'assets/look-minimal.jpg'
+    hoodie: 'assets/channel-1299-1.jpg',
+    tee: 'assets/channel-1285-2.jpg',
+    pants: 'assets/channel-1274-2.jpg',
+    jacket: 'assets/channel-1240-1.jpg',
+    other: 'assets/channel-1299-3.jpg'
   };
   const garmentNames = {
     tee: "Футболка",

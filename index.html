@@ -1714,11 +1714,11 @@
       }
     };
     const categoryPhotos = {
-      hoodie: "assets/look-street.jpg",
-      tee: "assets/tee-classic.jpg",
-      pants: "assets/jeans.jpg",
-      jacket: "assets/jacket.jpg",
-      other: "assets/look-minimal.jpg"
+      hoodie: "assets/channel-1299-1.jpg",
+      tee: "assets/channel-1285-2.jpg",
+      pants: "assets/channel-1274-2.jpg",
+      jacket: "assets/channel-1240-1.jpg",
+      other: "assets/channel-1299-3.jpg"
     };
 
     function getProductImage(product) {
@@ -2286,6 +2286,21 @@
 
       window.northwearBackend.loadProducts()
         .then((onlineProducts) => {
+          const archiveOrder = new Map((window.northwearArchive || []).map((p, idx) => [p.id, idx]));
+          const archiveMap = new Map((window.northwearArchive || []).map((p) => [p.id, p]));
+          onlineProducts.forEach((p) => {
+            const arch = archiveMap.get(p.id);
+            if (arch && arch.image && arch.image.startsWith("assets/")) {
+              if (!p.image || p.image.includes("telesco.pe")) {
+                p.image = arch.image;
+              }
+            }
+          });
+          onlineProducts.sort((a, b) => {
+            const orderA = archiveOrder.has(a.id) ? archiveOrder.get(a.id) : 999999;
+            const orderB = archiveOrder.has(b.id) ? archiveOrder.get(b.id) : 999999;
+            return orderA - orderB;
+          });
           products.splice(0, products.length, ...onlineProducts);
           const activeProductIds = new Set(onlineProducts.map((product) => product.id));
           cart = cart.filter((item) => activeProductIds.has(item.id));
