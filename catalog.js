@@ -3915,7 +3915,7 @@ window.northwearArchive = [
       "XXXXXL"
     ],
     "badge": "Пост #1003",
-    "image": "https://cdn4.telesco.pe/file/dCiqfAmP2agVkAEk-ZdRhQmDfqBeb94fKRz-20eXPuTYEhJITikoPBLt7HfpKmb5HZupj3UCjWfTsTdiYbCN8lVU4RCN-5aExEtXOvC2F8Fu-OGcK7VKMl4JVO1foeBoQoAxBpjGBafhS5XO2TyFG2QJ7fYJQXOavg9Q6ffZXfrxt-zb2of_HzTBYptLEnXj1VLOc5Tk4Fd0ILwDeMmbplYPFqbf1GDYOMEh_Eekl3S-sy0d8ZQQS9CHeJnLjah_GLDYhSKxVoAie8fX_uUT-YTMsDnjYQPq5pffeRxpwM3R4UilVtn2XJR2C-FG58g3kUNR_c5WhoIioTmOmnbnuQ.jpg",
+    "image": "assets/channel-1003-1.jpg",
     "alt": "Штани / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/1003"
   },
@@ -3939,7 +3939,7 @@ window.northwearArchive = [
       "XXXXXL"
     ],
     "badge": "Пост #1002",
-    "image": "https://cdn4.telesco.pe/file/vF9Stw3R-jZcNlVOj75m7BNHhgPXcq3idoWgvBZ6mOrfAU0PZNSvKnCJHE18MB7HP39phpSLIao_lNT8u-H4NEdr6hwm0F3zieQu6Gtg-OkxEoPG3QqCgsvT-yYykWFA9iGpJkkyMLZ1GhbKi79T7fPeE7Z_okhoiQnzdYuu81uwnutjrNAyb6GOKgNvULapbLbv6PpM-wH5sMECmpMRca9J2VGTPENw9i2pruMwT1iEAhnYEbL6tcVcVlHOYwCsEVSlD4yMf2QlWKedpzh3fHXNB7_W4D46SPgb5eG47AoJTyAqeEonjbS_GHJLs5kjrRZPlnBb4V12yCvwTE8jGA.jpg",
+    "image": "assets/channel-1002-1.jpg",
     "alt": "Штани / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/1002"
   },
@@ -3963,7 +3963,7 @@ window.northwearArchive = [
       "XXXXXL"
     ],
     "badge": "Пост #1001",
-    "image": "https://cdn4.telesco.pe/file/jjF1MixOaLYIKyEbm54KL5XyPjvLtb7RFpt6UOWZD6EVy-GGzJ8IhCw-wfoJMwxw4pmZK2oSOEH4tPzdvroldesGn11VkoY9Kn8JmGRud2ZIY00sQg3d2NnhfFOAf11xIViD9v1JN8OAcKZElG4YQn5Osx5mBj2GefGpvFZSP0PIa0EFPEw3lGtwDguuml8mlj5C8Z5HtFQ1MM_X88vGnhi1sccsjWqxF2BOSz2xU1QxYO0DhUd4rjtMqEkUA-mAfDmZWn8teo1sJcEhH8pwc-BdrfZCL9qaw6y7KBcYVvlz6HEY-MXX3_EQD_Bi7oLcsaWU5pq7TlXBH4K4y0ksYA.jpg",
+    "image": "assets/channel-1001-1.jpg",
     "alt": "Штани / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/1001"
   },
@@ -3987,7 +3987,7 @@ window.northwearArchive = [
       "XXXXXL"
     ],
     "badge": "Пост #1000",
-    "image": "https://cdn4.telesco.pe/file/Z1-uvHFEKsGbOHrC7lU4c8dgemg_QIlCIdvhCeAq7v9h31Zfa6YFjYLz1BvWTegwR9LhB3l0tMBL38rmp_VirmW7MQEJnisF0ZUlTML3ZjQ9Zqk-n3lO-zzLqunJxLqu42lwJcWdxDR16tjvBnvyLYFgW8df7OjmWWVp-gZd0oBUrlwdAslX4S2mRmJknHfWv4q6oyzgiX5dx1m88AUSKgbMpY9cFkwsakmCkLqrNwIDiiveI8ZAaGjnqMlK3FBY-T2Jhmw9bKUvdX5poKiR1Q9Dr7ERzZDElFrYWI1H1QJrsGrRd-raoi2kXB-0myFgT-7w-xumpjwMF5vJ5XvMKg.jpg",
+    "image": "assets/channel-1000-1.jpg",
     "alt": "Штани / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/1000"
   },
@@ -4011,7 +4011,7 @@ window.northwearArchive = [
       "XXXXXL"
     ],
     "badge": "Пост #999",
-    "image": "https://cdn4.telesco.pe/file/hxOCH4L__TK2SR3xVSFbWOQZKLTl0Ft9IHXHRoY8_sFzdDNScQuiefvcRLB1i4R7DeVYJj4j35q6X0APmgtHRzCpPrN6UJCBEQrq8KsArDo8vMFLqgtvs6pjtiwlqKOhCxtuU6gWIH2BaqalLHOeFpa67yGL4d9wmhSfZFn23ky2an8S4vmNM_tvGJklM2xsZG7McReQNGojknU2EZZmfZBIA6uZui51-UySKWyfCjOwOgCm3XPALGW7pjCHq8nt6pCPyuOxMuQTlz3zhzI8Wna8UDIT5naj8NjE3-Auv9ikME5dXIkd_ndZ5qjzwxfLQwzR-nDKLatYh5E5rYfakg.jpg",
+    "image": "assets/channel-999-1.jpg",
     "alt": "Штани / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/999"
   },
@@ -4035,7 +4035,7 @@ window.northwearArchive = [
       "XXXXXL"
     ],
     "badge": "Пост #998",
-    "image": "https://cdn4.telesco.pe/file/E4HyW3JPPUzGkjBeFWAj1yQxTKYVfq6uXytWiBwyeVePEbwPdDPxdPFKw2pfj3sHeykSYhlkzR2Ld1g0XHq9byOqbDMUuazBqHu0a8OgDCrhSX4ZJ-FCGMbuf2e206lGLiO5zGH4xRmNKINhr9XNboSMpdp7LJ6hRm6hdAHseF1tUwvbobDfQTJEGDC-8k8dPcu4VJXQoZcwbHFdAo0np_TixV57CT0J4CF4Yx_KdRSeUGe88FKCKkuB_vMSlKVbm0ekLlmb5gTcMtSlLws4QNg-84c39k-O3Une7Dmca7tWzEjw50T6lLHuoZQ0aFp-noaDx_zXYQEjkg4VEQdxxA.jpg",
+    "image": "assets/channel-998-1.jpg",
     "alt": "Штани / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/998"
   },
@@ -4059,7 +4059,7 @@ window.northwearArchive = [
       "XXXXXL"
     ],
     "badge": "Пост #997",
-    "image": "https://cdn4.telesco.pe/file/f6rYIdjF7SkF3fCOLEgTgeMx-zK-fTp0P3OjFYVHmuCx1lG1wWbIe0LckdTbRthjT32OKkUgbfZV_UQQxevWA5nAJKDnHBx1x2Gc5gV8tHpUHqhZ1Fe9ePrJfYCkCY2Qz0R7121vgytcBQxfz9fcvPYA4kjDHjvdRhnr7TN-cZEmIpee1hjl00qp_SEU_gHGMOPpC-aDaH6KNez2tqJeozreIJDeiYvAgbI7dxKpT9GfPF2a-q7tTwZqj77fF4i4kGQnRX_Zh3uKOGlPFQ_OhY9slmPJxtEfGSulEJop1TvzZqQes3_PI435CBT4YcSPHvGi57vkA9BcOM83PDWliQ.jpg",
+    "image": "assets/channel-997-1.jpg",
     "alt": "Штани / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/997"
   },
@@ -4083,7 +4083,7 @@ window.northwearArchive = [
       "XXXXXL"
     ],
     "badge": "Пост #996",
-    "image": "https://cdn4.telesco.pe/file/nwlHoOhknLTcuC3hZNx1B2kZpYIa9WNXGCgdiFR8KOGBj4pndnPWEyW6qzKdnMIZdEk4OtA6274Wff_n2FGmi4ST06wI2suYg3HzRa2xPLu3Wp2E6ZkzW4X0zpB4XwnKce2fCH0H-1gN_V3ArBoJCGOqd_oC_ZwFdiMfq4zuMjxZwm2ZuEcJxZCiLmkXhbozzrIHK5rdPWL-lTn_5lDwa_t8vZZylilkC_9reBlopTAYbKepOmE7CElm4az-tnVG3avRj7bmu66tqhRSL6S3uivNQvez34p3eZ9gGoFvfNMUTZ05Dj5IZd0vDa-9DFMkmVaxTZ0S6Y1gVHPNKV3iWA.jpg",
+    "image": "assets/channel-996-1.jpg",
     "alt": "Штани / NORTH WEAR",
     "source": "https://t.me/NORTHWEA/996"
   },

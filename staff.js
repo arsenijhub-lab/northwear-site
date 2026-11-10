@@ -23,7 +23,7 @@
   const categoryThumbs = {
     hoodie: 'assets/channel-1299-1.jpg',
     tee: 'assets/channel-1285-2.jpg',
-    pants: 'assets/channel-1274-2.jpg',
+    pants: "assets/pants-default.jpg",
     jacket: 'assets/channel-1240-1.jpg',
     other: 'assets/channel-1299-3.jpg'
   };
